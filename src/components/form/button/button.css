@@ -1,0 +1,20 @@
+.button {
+    padding: .7rem 2rem;
+    background-color: var(--color-orange);
+    border: none;
+    border-radius:var(--border-radius-small);
+    color: white;
+    cursor: pointer;
+}
+
+.button__text {
+    font-size: var(--font-size-medium);
+}
+
+
+.button.primary {
+    background-color: var(--color-orange);
+}
+.button.danger {
+    background-color: var(--color-red);
+}
