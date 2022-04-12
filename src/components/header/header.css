@@ -1,41 +1,123 @@
 header {
-    background-color: white;
-    padding: 1rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
+	background-color: var(--color-white);
+	width: 100%;
 }
 
 .nav-container {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .logo {
-    width: 5rem;
+	width: 5rem;
+	line-height: 2rem;
+	font-size: var(--font-size-x-large);
+	font-weight: var(--font-weight-bold);
+	text-decoration: none;
 }
 
-.logo-img {
-    width: 100%;
-    height: auto;
+.logo .link {
+	color: var(--color-black);
+}
+
+.logo .b {
+	color: var(--color-orange);
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-large);
 }
 
 nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 10rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 10rem;
+}
+
+.list-item {
+	line-height: 2rem;
+	padding: 0.5rem;
 }
 
 nav a {
-    text-decoration: none;
-    color: var(--color-black);
-    font-size: var(--font-size-medium);
+	text-decoration: none;
+	color: var(--color-dark-gray);
+	font-size: var(--font-size-medium);
 }
 
-nav a:hover, nav a:active, nav a.active {
-    color: var(--color-orange);
+nav a:hover,
+nav a:active,
+nav a.active {
+	color: var(--color-orange);
+}
+
+.user-container {
+	position: relative;
+}
+
+.user {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 0.5rem;
+	cursor: pointer;
+}
+
+.user .avatar {
+	width: 1.8rem;
+	height: 1.8rem;
+	border-radius: var(--border-radius-small);
+	overflow: hidden;
+}
+
+.user .name {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-size: var(--font-size-large);
+}
+
+.user .icon {
+	font-size: var(--font-size-x-large);
+	color: var(--color-gray-2);
+}
+
+.avatar img {
+	width: 100%;
+	height: auto;
+}
+
+.options {
+	position: absolute;
+	top: 3rem;
+	right: 0;
+	width: 100%;
+	padding: 0.7rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	align-items: center;
+	background-color: var(--color-white);
+	border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
+	border: 2px solid var(--color-lighter-gray);
+	border-top: none;
+	z-index: 1;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease-in-out;
+}
+
+.option {
+	cursor: pointer;
+}
+
+.option:hover {
+	color: var(--color-orange);
+}
+
+.user-container:focus ul,
+.user-container:hover ul {
+	opacity: 1;
+	visibility: visible;
 }

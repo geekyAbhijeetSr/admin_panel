@@ -1,0 +1,40 @@
+.select-input {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-bottom: 1rem;
+}
+
+.select-input select {
+    width: 160px;
+	border: 1px solid var(--color-light-gray);
+	border-radius: 0.25rem;
+	padding: .7rem 1rem;
+	font-size: var(--font-size-medium);
+	color: var(--color-dark-gray);
+	background-color: var(--color-white);
+	outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background: transparent;
+	background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+	background-repeat: no-repeat;
+	background-position-x: 100%;
+	background-position-y: 50%;
+	cursor: pointer;
+}
+
+.select-input select:focus {
+	border: 1px solid var(--color-orange);
+	background-color: var(--color-white);
+}
+
+select.error {
+	border: 1px solid var(--color-red);
+	margin-bottom: 0.5rem;
+}
+
+.select-input select option {
+	color: var(--color-dark-gray);
+	background: var(--color-white);
+}

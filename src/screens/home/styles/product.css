@@ -1,0 +1,44 @@
+.create-product-container {
+	width: 550px;
+	margin: auto;
+	margin-bottom: 2rem;
+}
+
+.create-product-container .heading-pc {
+    margin-bottom: 2rem;
+}
+
+.create-product-container .heading-pc h1 {
+	font-size: var(--font-size-xx-large);
+    font-weight: var(--font-weight-normal);
+	color: var(--color-black);
+    margin-bottom: 1rem;
+}
+.create-product-container .heading-pc span {
+	font-size: var(--font-size-large);
+	color: var(--color-gray);
+	margin-bottom: 1rem;
+}
+
+.create-product-container form .button-container {
+	margin-top: 1rem;
+	display: inline-flex;
+	justify-content: flex-end;
+	gap: 1rem;
+}
+
+.step-one .categories, .step-one .prices {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 1rem;
+	justify-content: space-between;
+}
+
+.step-one .prices .input-container, .step-one .categories .select-input {
+	flex: 1;
+}
+
+.step-one .categories .select-input select {
+	width: 100%;
+}

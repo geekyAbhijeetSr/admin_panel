@@ -1,17 +1,12 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-
-import { Input, Button } from '../../components'
-
-const schema = yup.object({
-	email: yup
-		.string()
-		.required('Enter your email')
-		.email('Invalid email address'),
-	password: yup.string().required('Enter your password'),
-})
+import { loginValidation } from '../../validation/auth-validation'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, resetAuth } from '../../redux/features/auth-slice'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import { Input, Button, Spinner } from '../../components'
 
 function Login() {
 	const {
@@ -19,24 +14,46 @@ function Login() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(loginValidation),
 	})
 
-	const onSubmit = (data) => {
-		console.log(data)
+	const { user, error, isLoading } = useSelector(state => state.auth)
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
+
+	const onSubmit = data => {
+		dispatch(login(data))
 	}
+
+	useEffect(() => {
+		if (user) {
+			navigate('/')
+		}
+	}, [user, navigate])
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error)
+			dispatch(resetAuth())
+		}
+	}, [error, dispatch])
 
 	return (
 		<div className='login-container'>
+			{isLoading && <Spinner />}
 			<div className='form-box'>
 				<h1>Log in</h1>
 
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form
+					className='align-center'
+					onSubmit={handleSubmit(onSubmit)}
+					noValidate
+				>
 					<Input
 						label='Email'
 						name='email'
 						type='email'
-						placeholder='example@email.com'
+						placeholder='e.g. example@email.com'
 						register={register}
 						message={errors.email?.message}
 					/>

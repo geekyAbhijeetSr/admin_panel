@@ -1,22 +1,12 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-
-import { Input, Button } from '../../components'
-
-const schema = yup.object({
-	firstName: yup.string().required('First name is required'),
-	lastName: yup.string().required('Last name is required'),
-	email: yup
-		.string()
-		.required('Email is required')
-		.email('Invalid email address'),
-	password: yup.string().required('Password is required'),
-	confirmPassword: yup
-		.string()
-		.oneOf([yup.ref('password'), null], 'Passwords must match'),
-})
+import { signupValidation } from '../../validation/auth-validation'
+import { useDispatch, useSelector } from 'react-redux'
+import { signup, resetAuth } from '../../redux/features/auth-slice'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import { Input, Button, Spinner } from '../../components'
 
 function Signup() {
 	const {
@@ -24,35 +14,58 @@ function Signup() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(signupValidation),
 	})
 
+	const { user, error, isLoading } = useSelector(state => state.auth)
+
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
+
 	const onSubmit = data => {
-		console.log(data)
+		dispatch(signup(data))
 	}
+
+	useEffect(() => {
+		if (user) {
+			navigate('/')
+		}
+	}, [user, navigate])
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error)
+			dispatch(resetAuth())
+		}
+	}, [error, dispatch])
 
 	return (
 		<div className='signup-container'>
+			{isLoading && <Spinner />}
 			<div className='form-box'>
 				<h1>Sign up</h1>
 
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form
+					className='align-center'
+					onSubmit={handleSubmit(onSubmit)}
+					noValidate
+				>
 					<div className='fln-container'>
 						<Input
 							label='First Name'
-							name='firstName'
+							name='firstname'
 							type='text'
-							placeholder='John'
+							placeholder='e.g. John'
 							register={register}
-							message={errors.firstName?.message}
+							message={errors.firstname?.message}
 						/>
 						<Input
 							label='Last Name'
-							name='lastName'
+							name='lastname'
 							type='text'
-							placeholder='Doe'
+							placeholder='e.g. Doe'
 							register={register}
-							message={errors.lastName?.message}
+							message={errors.lastname?.message}
 						/>
 					</div>
 
@@ -60,7 +73,7 @@ function Signup() {
 						label='Email'
 						name='email'
 						type='email'
-						placeholder='example@email.com'
+						placeholder='e.g. example@email.com'
 						register={register}
 						message={errors.email?.message}
 					/>
@@ -69,7 +82,7 @@ function Signup() {
 						label='Password'
 						name='password'
 						type='password'
-						placeholder='Password'
+						placeholder='Must be at least 8 characters'
 						register={register}
 						message={errors.password?.message}
 					/>
@@ -78,7 +91,7 @@ function Signup() {
 						label='Confirm Password'
 						name='confirmPassword'
 						type='password'
-						placeholder='Confirm Password'
+						placeholder='Must match password'
 						register={register}
 						message={errors.confirmPassword?.message}
 					/>

@@ -1,0 +1,47 @@
+.dashboard {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	position: relative;
+	gap: 1rem;
+}
+
+.dashboard__left {
+	flex: 1;
+	background-color: var(--color-white);
+	height: 90vh;
+	border-radius: var(--border-radius-medium);
+}
+
+.dashboard__left .tabs {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 2rem;
+}
+
+.tabs .tab {
+	padding: 1rem 2rem;
+	margin-bottom: 0.5rem;
+	border-radius: var(--border-radius-medium);
+	background-color: var(--color-lighter-gray);
+	cursor: pointer;
+	font-size: var(--font-size-large);
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	transition: all 0.3s ease-in-out;
+}
+
+.tabs .tab:hover {
+	color: var(--color-orange);
+	background-color: var(--color-light-orange);
+}
+
+.tabs .tab.active {
+	background-color: var(--color-orange);
+	color: var(--color-white);
+}
+
+.dashboard__right {
+	flex: 4;
+}

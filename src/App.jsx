@@ -1,22 +1,51 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from './redux/features/auth-slice'
+import { useEffect } from 'react'		
 import { Header } from './components'
-import { Login, Signup } from './screens'
+import { Login, Signup, Home } from './screens'
 
 import './App.css'
 
 function App() {
+	const { user, exp } = useSelector(state => state.auth)
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (exp) {
+				const now = new Date()
+				const expDate = new Date(exp)
+				if (now > expDate) {
+					dispatch(logout())
+				}
+			}
+
+		}, 1000)
+
+		if (!exp) {
+			clearInterval(interval)
+		}
+
+		return () => clearInterval(interval)
+	}, [exp, dispatch])
+
 	return (
 		<div className='App'>
-			<Router>
-				<Header />
-				<main>
-					<Routes>
-						<Route path='/' element={<h1>Home</h1>} />
-						<Route path='/login' element={<Login />} />
-						<Route path='/signup' element={<Signup />} />
-					</Routes>
-				</main>
-			</Router>
+			<Header />
+			<main>
+				<Routes>
+					{/* if user login */}
+					{user && <Route path='/' element={<Home />} />}
+
+					{/* if user not login */}
+					{!user && <Route path='/login' element={<Login />} />}
+					{!user && <Route path='/signup' element={<Signup />} />}
+
+					{/* catch unknown routes */}
+					<Route path='*' element={<Navigate to={user ? '/' : '/login'} />} />
+				</Routes>
+			</main>
 		</div>
 	)
 }
