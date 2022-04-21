@@ -13,8 +13,8 @@ import {
 
 const initialState = {
 	isLoadingAttr: false,
-	error: null,
-	message: null,
+	errorAttr: null,
+	messageAttr: null,
 	collections: null,
 }
 
@@ -132,8 +132,8 @@ const attributeSlice = createSlice({
 	reducers: {
 		resetAttribute: state => {
 			state.isLoadingAttr = false
-			state.error = null
-			state.message = null
+			state.errorAttr = null
+			state.messageAttr = null
 		},
 	},
 	extraReducers: {
@@ -146,7 +146,7 @@ const attributeSlice = createSlice({
 			state.isLoadingAttr = false
 		},
 		[getCollections.rejected]: (state, action) => {
-			state.error = action.payload.error
+			state.errorAttr = action.payload.error
 			state.isLoadingAttr = false
 		},
 		// addCollection
@@ -155,11 +155,11 @@ const attributeSlice = createSlice({
 		},
 		[addCollection.fulfilled]: (state, action) => {
 			state.collections.push(action.payload.attributeCollection)
-			state.message = action.payload.message
+			state.messageAttr = action.payload.message
 			state.isLoadingAttr = false
 		},
 		[addCollection.rejected]: (state, action) => {
-			state.error = action.payload.error
+			state.errorAttr = action.payload.error
 			state.isLoadingAttr = false
 		},
 		// updateCollection
@@ -171,11 +171,11 @@ const attributeSlice = createSlice({
 				collection => collection._id === action.payload.attributeCollection._id
 			)
 			state.collections[index] = action.payload.attributeCollection
-			state.message = action.payload.message
+			state.messageAttr = action.payload.message
 			state.isLoadingAttr = false
         },
         [updateCollection.rejected]: (state, action) => {
-            state.error = action.payload.error
+            state.errorAttr = action.payload.error
             state.isLoadingAttr = false
         },
         // deleteCollection
@@ -187,11 +187,11 @@ const attributeSlice = createSlice({
                 collection => collection._id === action.payload.id
             )
             state.collections.splice(index, 1)
-            state.message = action.payload.message
+            state.messageAttr = action.payload.message
             state.isLoadingAttr = false
         },
         [deleteCollection.rejected]: (state, action) => {
-            state.error = action.payload.error
+            state.errorAttr = action.payload.error
             state.isLoadingAttr = false
 		},
 		// addAttribute
@@ -203,11 +203,11 @@ const attributeSlice = createSlice({
 				collection => collection._id === action.payload.attributeCollection._id
 			)
 			state.collections[index] = action.payload.attributeCollection
-			state.message = action.payload.message
+			state.messageAttr = action.payload.message
 			state.isLoadingAttr = false
 		},
 		[addAttribute.rejected]: (state, action) => {
-			state.error = action.payload.error
+			state.errorAttr = action.payload.error
 			state.isLoadingAttr = false
 		},
 		// updateAttribute
@@ -219,11 +219,11 @@ const attributeSlice = createSlice({
 				collection => collection._id === action.payload.attributeCollection._id
 			)
 			state.collections[index] = action.payload.attributeCollection
-			state.message = action.payload.message
+			state.messageAttr = action.payload.message
 			state.isLoadingAttr = false
 		},
 		[updateAttribute.rejected]: (state, action) => {
-			state.error = action.payload.error
+			state.errorAttr = action.payload.error
 			state.isLoadingAttr = false
 		},
 		// deleteAttribute
@@ -235,11 +235,11 @@ const attributeSlice = createSlice({
 				collection => collection._id === action.payload.id
 			)
 			state.collections[index] = action.payload.attributeCollection
-			state.message = action.payload.message
+			state.messageAttr = action.payload.message
 			state.isLoadingAttr = false
 		},
 		[deleteAttribute.rejected]: (state, action) => {
-			state.error = action.payload.error
+			state.errorAttr = action.payload.error
 			state.isLoadingAttr = false
 		},
 		// toggleActiveStatusCollection
@@ -258,7 +258,7 @@ const attributeSlice = createSlice({
 			state.collections[index] = attributeCollection
 		},
 		[toggleActiveStatusCollection.rejected]: (state, action) => {
-			state.error = action.payload.error
+			state.errorAttr = action.payload.error
 		},
 		// toggleActiveStatusAttribute
 		[toggleActiveStatusAttribute.pending]: (state, action) => {
@@ -281,7 +281,7 @@ const attributeSlice = createSlice({
 			state.collections[index] = attributeCollection
 		},
 		[toggleActiveStatusAttribute.rejected]: (state, action) => {
-			state.error = action.payload.error
+			state.errorAttr = action.payload.error
 		}
 	},
 })

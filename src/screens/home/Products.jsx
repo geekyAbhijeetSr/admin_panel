@@ -8,7 +8,7 @@ import './styles/product.css'
 
 function Products() {
 	const [activePage, setActivePage] = useState("ProductList")
-	const { isLoadingCat, message, error } = useSelector(state => state.category)
+	const { isLoadingCat, messageCat, errorCat } = useSelector(state => state.category)
 
 	const dispatch = useDispatch()
 
@@ -22,15 +22,15 @@ function Products() {
 
 	useEffect(() => {
 		dispatch(getCategory())
-		if (error) {
-			toast.error(error)
+		if (errorCat) {
+			toast.error(errorCat)
 			dispatch(resetCat())
 		}
-		if (message) {
-			toast.success(message)
+		if (messageCat) {
+			toast.success(messageCat)
 			dispatch(resetCat())
 		}
-	}, [dispatch, error, message])
+	}, [dispatch, errorCat, messageCat])
 
 	const renderComponent = () => {
 		switch (activePage) {

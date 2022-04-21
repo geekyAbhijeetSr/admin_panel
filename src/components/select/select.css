@@ -38,3 +38,7 @@ select.error {
 	color: var(--color-dark-gray);
 	background: var(--color-white);
 }
+
+.select-input label .required {
+	color: var(--color-red);
+}

@@ -8,7 +8,7 @@ import { Spinner2 } from '../../components'
 import './styles/categories.css'
 
 function Categories() {
-	const { isLoadingCat, message, error } = useSelector(state => state.category)
+	const { isLoadingCat, messageCat, errorCat } = useSelector(state => state.category)
 	const dispatch = useDispatch()
 	const [activeCard, setActiveCard] = useState('category1')
 	const cards = [
@@ -54,15 +54,15 @@ function Categories() {
 	useEffect(() => {
 		dispatch(getCategory())
 		dispatch(getCollections())
-		if (error) {
-			toast.error(error)
+		if (errorCat) {
+			toast.errorCat(errorCat)
 			dispatch(resetCat())
 		}
-		if (message) {
-			toast.success(message)
+		if (messageCat) {
+			toast.success(messageCat)
 			dispatch(resetCat())
 		}
-	}, [dispatch, error, message])
+	}, [dispatch, errorCat, messageCat])
 
 	const renderComponent = () => {
 		switch (activeCard) {

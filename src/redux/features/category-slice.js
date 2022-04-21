@@ -9,8 +9,8 @@ import {
 
 const initialState = {
 	isLoadingCat: false,
-	error: null,
-	message: null,
+	errorCat: null,
+	messageCat: null,
 	categories: null,
 	parentCategories: null,
 }
@@ -83,8 +83,8 @@ const categorySlice = createSlice({
 	reducers: {
 		resetCat: state => {
 			state.isLoadingCat = false
-			state.error = null
-			state.message = null
+			state.errorCat = null
+			state.messageCat = null
 		},
 	},
 	extraReducers: {
@@ -102,7 +102,7 @@ const categorySlice = createSlice({
 		},
 		[getCategory.rejected]: (state, action) => {
 			state.isLoadingCat = false
-			state.error = action.payload.error
+			state.errorCat = action.payload.error
 		},
 		// addCategory request
 		[addCategory.pending]: state => {
@@ -115,11 +115,11 @@ const categorySlice = createSlice({
 			)
 			state.parentCategories = parentCategories
 			state.isLoadingCat = false
-			state.message = action.payload.message
+			state.messageCat = action.payload.message
 		},
 		[addCategory.rejected]: (state, action) => {
 			state.isLoadingCat = false
-			state.error = action.payload.error
+			state.errorCat = action.payload.error
 		},
 		// deleteCategory request
 		[deleteCategory.pending]: state => {
@@ -134,11 +134,11 @@ const categorySlice = createSlice({
 			)
 			state.parentCategories = parentCategories
 			state.isLoadingCat = false
-			state.message = action.payload.message
+			state.messageCat = action.payload.message
 		},
 		[deleteCategory.rejected]: (state, action) => {
 			state.isLoadingCat = false
-			state.error = action.payload.error
+			state.errorCat = action.payload.error
 		},
 		// updateCategory request
 		[updateCategory.pending]: state => {
@@ -155,11 +155,11 @@ const categorySlice = createSlice({
 			)
 			state.parentCategories = parentCategories
 			state.isLoadingCat = false
-			state.message = action.payload.message
+			state.messageCat = action.payload.message
 		},
 		[updateCategory.rejected]: (state, action) => {
 			state.isLoadingCat = false
-			state.error = action.payload.error
+			state.errorCat = action.payload.error
 		},
 		// toggleActiveStatusCategory request
 		[toggleActiveStatusCategory.pending]: (state, action) => {
@@ -190,7 +190,7 @@ const categorySlice = createSlice({
 			state.parentCategories = parentCategories
 		},
 		[toggleActiveStatusCategory.rejected]: (state, action) => {
-			state.error = action.payload.error
+			state.errorCat = action.payload.error
 		},
 	},
 })

@@ -24,6 +24,12 @@
 	border: 1px solid var(--color-gray-2);
 	cursor: not-allowed;
 }
+
+.button.outline.button.disabled {
+	background-color: transparent;
+	border: 1px solid var(--color-gray);
+	color: var(--color-gray);
+}
 .button.disabled:hover {
 	opacity: 1;
 }

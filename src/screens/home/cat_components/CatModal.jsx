@@ -83,7 +83,7 @@ function CatFormModal(props) {
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
 			<div className='modal-small-form'>
-				<form onSubmit={handleSubmit(onSubmit)} noValidate>
+				<form onSubmit={handleSubmit(onSubmit)} noValidate spellCheck='false'>
 					<Input
 						label='Category Name'
 						name='name'
@@ -213,7 +213,7 @@ function CatFormModal2(props) {
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
 			<div className='modal-small-form'>
-				<form onSubmit={handleSubmit(onSubmit)} noValidate>
+				<form onSubmit={handleSubmit(onSubmit)} noValidate spellCheck='false'>
 					<Input
 						label='Category Name'
 						name='name'

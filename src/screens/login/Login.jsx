@@ -17,7 +17,7 @@ function Login() {
 		resolver: yupResolver(loginValidation),
 	})
 
-	const { user, error, isLoading } = useSelector(state => state.auth)
+	const { user, errorAuth, isLoadingAuth } = useSelector(state => state.auth)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 
@@ -32,15 +32,15 @@ function Login() {
 	}, [user, navigate])
 
 	useEffect(() => {
-		if (error) {
-			toast.error(error)
+		if (errorAuth) {
+			toast.error(errorAuth)
 			dispatch(resetAuth())
 		}
-	}, [error, dispatch])
+	}, [errorAuth, dispatch])
 
 	return (
 		<div className='login-container'>
-			{isLoading && <Spinner />}
+			{isLoadingAuth && <Spinner />}
 			<div className='form-box'>
 				<h1>Log in</h1>
 
@@ -48,6 +48,7 @@ function Login() {
 					className='align-center'
 					onSubmit={handleSubmit(onSubmit)}
 					noValidate
+					spellCheck='false'
 				>
 					<Input
 						label='Email'

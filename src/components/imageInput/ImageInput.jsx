@@ -3,7 +3,7 @@ import './imageInput.css'
 
 function ImageInput(props) {
 	const [preview, setPreview] = useState(null)
-	const { label, message, name, register, accept, url } = props
+	const { label, message, name, register, accept, url, requiredField } = props
 
 	const onChange = e => {
 		if (e.target.files[0] === undefined) {
@@ -21,7 +21,7 @@ function ImageInput(props) {
 
 	return (
 		<div className='image-input-container'>
-			<span className='image-input-label'>{label}</span>
+			<span className='image-input-label'>{label} {requiredField && <span className='required'>*</span> }</span>
 
 			<label className={`add-image ${message ? 'error' : ''}`} htmlFor={name}>
 				<img

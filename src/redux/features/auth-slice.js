@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { loginRequest, signupRequest, logoutRequest } from './service/auth-service'
 
 const initialState = {
-	isLoading: false,
-	error: null,
-	message: null,
+	isLoadingAuth: false,
+	errorAuth: null,
+	messageAuth: null,
 	user: null,
 	exp: null,
 }
@@ -56,56 +56,56 @@ const authSlice = createSlice({
 	initialState,
 	reducers: {
 		resetAuth: state => {
-			state.isLoading = false
-			state.error = null
-			state.message = null
+			state.isLoadingAuth = false
+			state.errorAuth = null
+			state.messageAuth = null
 		},
 	},
 	extraReducers: {
 		// login request
 		[login.pending]: state => {
-			state.isLoading = true
+			state.isLoadingAuth = true
 		},
 		[login.fulfilled]: (state, action) => {
-			state.isLoading = false
+			state.isLoadingAuth = false
 			state.user = action.payload.user
-			state.message = action.payload.message
+			state.messageAuth = action.payload.message
 			state.exp = action.payload.exp
 			localStorage.setItem('exp', JSON.stringify(action.payload.exp))
 			localStorage.setItem('user', JSON.stringify(action.payload.user))
 		},
 		[login.rejected]: (state, action) => {
-			state.isLoading = false
-			state.error =
+			state.isLoadingAuth = false
+			state.errorAuth =
 				action.payload.error ||
 				action.payload.errors[0].msg ||
 				'Oops! Something went wrong.'
 		},
 		// signup request
 		[signup.pending]: (state, action) => {
-			state.isLoading = true
+			state.isLoadingAuth = true
 		},
 		[signup.fulfilled]: (state, action) => {
-			state.isLoading = false
+			state.isLoadingAuth = false
 			state.user = action.payload.user
-			state.message = action.payload.message
+			state.messageAuth = action.payload.message
 			state.exp = action.payload.exp
 			localStorage.setItem('exp', JSON.stringify(action.payload.exp))
 			localStorage.setItem('user', JSON.stringify(action.payload.user))
 		},
 		[signup.rejected]: (state, action) => {
-			state.isLoading = false
-			state.error =
+			state.isLoadingAuth = false
+			state.errorAuth =
 				action.payload.error ||
 				action.payload.errors[0].msg ||
 				'Something went wrong'
 		},
 		// logout request
 		[logout.pending]: state => {
-			state.isLoading = false
-			state.error = null
+			state.isLoadingAuth = false
+			state.errorAuth = null
 			state.user = null
-			state.message = null
+			state.messageAuth = null
 			state.exp = null
 			localStorage.clear()
 		},

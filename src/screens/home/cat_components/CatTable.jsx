@@ -6,7 +6,6 @@ import { Switch } from '../../../components'
 
 function CatTable(props) {
 	const { categories } = useSelector(state => state.category)
-	const { collections } = useSelector(state => state.attribute)
 	const {
 		categoriesList,
 		condition,
@@ -23,11 +22,6 @@ function CatTable(props) {
 			categoryId: category._id,
 		}
 		dispatch(toggleActiveStatusCategory(payload))		
-	}
-
-	const returnCollectionName = (id) => {
-		const collection = collections.find(item => item._id === id)
-		return collection.name
 	}
 
 	return (
@@ -70,7 +64,7 @@ function CatTable(props) {
 									/>
 								</td>
 								{thirdLayer && (
-									<td>{returnCollectionName(category.attributeCollection)}</td>)}
+									<td>{category.attributeCollection.name}</td>)}
 								<td className='action'>
 									<md.MdEdit
 										className='edit'

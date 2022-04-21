@@ -14,7 +14,7 @@ import './styles/home.css'
 
 function Home() {
 	const [activeTab, setActiveTab] = useState('dashboard')
-	const { message } = useSelector(state => state.auth)
+	const { messageAuth } = useSelector(state => state.auth)
 	const dispatch = useDispatch()
 	const tabs = [
 		{
@@ -53,11 +53,11 @@ function Home() {
 	}
 
 	useEffect(() => {
-		if (message) {
-			toast.success(message)
+		if (messageAuth) {
+			toast.success(messageAuth)
 			dispatch(resetAuth())
 		}
-	}, [message, dispatch])
+	}, [messageAuth, dispatch])
 
 	const renderComponent = () => {
 		switch (activeTab) {

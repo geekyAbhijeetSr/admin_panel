@@ -73,6 +73,7 @@ function CollectionFormModal(props) {
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					noValidate
+					spellCheck='false'
 				>
 					<Input
 						label='Collection Name'

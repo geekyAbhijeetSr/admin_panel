@@ -17,7 +17,7 @@ function Signup() {
 		resolver: yupResolver(signupValidation),
 	})
 
-	const { user, error, isLoading } = useSelector(state => state.auth)
+	const { user, errorAuth, isLoading } = useSelector(state => state.auth)
 
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -33,11 +33,11 @@ function Signup() {
 	}, [user, navigate])
 
 	useEffect(() => {
-		if (error) {
-			toast.error(error)
+		if (errorAuth) {
+			toast.error(errorAuth)
 			dispatch(resetAuth())
 		}
-	}, [error, dispatch])
+	}, [errorAuth, dispatch])
 
 	return (
 		<div className='signup-container'>
@@ -49,6 +49,7 @@ function Signup() {
 					className='align-center'
 					onSubmit={handleSubmit(onSubmit)}
 					noValidate
+					spellCheck='false'
 				>
 					<div className='fln-container'>
 						<Input

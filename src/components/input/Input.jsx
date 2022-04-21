@@ -8,6 +8,7 @@ function Input(props) {
 		placeholder,
 		register,
 		message,
+		requiredField,
 	} = props
 	const renderInput = () => {
 		switch (type) {
@@ -20,6 +21,7 @@ function Input(props) {
 						placeholder={placeholder}
 						{...register(name)}
 						autoComplete='off'
+						spellCheck='true'
 					/>
 				)
 			default:
@@ -40,7 +42,7 @@ function Input(props) {
 	return (
 		<div className='input-container'>
 			<label htmlFor={name}>
-				{label}
+				{label} {requiredField && <span className='required'>*</span>}
 			</label>
 
 			{renderInput()}

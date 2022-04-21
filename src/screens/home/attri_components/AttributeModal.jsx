@@ -78,6 +78,7 @@ function AttributeFormModal(props) {
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					noValidate
+					spellCheck='false'
 				>
 					<Input
 						label='Attribute Name'

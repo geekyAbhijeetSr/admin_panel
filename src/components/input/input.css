@@ -12,16 +12,28 @@ label {
 	margin-bottom: 0.5rem;
 }
 
+label .required {
+	color: var(--color-red);
+}
+
 .input {
 	width: 100%;
-	padding: .7rem 1rem;
+	padding: 0.7rem 1rem;
 	border: 1px solid var(--color-light-gray);
 	outline: none;
 	border-radius: var(--border-radius-small);
 	font-size: var(--font-size-large);
-	/* background-color: var(--color-lighter-gray); */
+	font-family: var(--font-family-sans-serif);
 	color: var(--color-dark-gray);
 	margin-bottom: 0.5rem;
+}
+
+.input-container textarea {
+	height: 10rem;
+	resize: none;
+	font-size: var(--font-size-large);
+	color: var(--color-dark-gray);
+	font-family: var(--font-family-sans-serif);
 }
 
 .input:focus {
