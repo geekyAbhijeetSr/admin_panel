@@ -1,7 +1,4 @@
-import AttributeCollections from "./AttributeCollections"
-import AttributesList from "./AttributesList"
+import AttributeCollections from './AttributeCollections'
+import AttributesList from './AttributesList'
 
-export {
-    AttributeCollections,
-    AttributesList
-}
+export { AttributeCollections, AttributesList }

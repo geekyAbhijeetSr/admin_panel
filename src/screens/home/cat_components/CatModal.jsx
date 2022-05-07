@@ -28,7 +28,6 @@ function CatFormModal(props) {
 	useEffect(() => {
 		if (prefillData) {
 			setValue('name', prefillData.name)
-			setValue('active', prefillData.active)
 		}
 	}, [prefillData, setValue])
 
@@ -36,7 +35,6 @@ function CatFormModal(props) {
 		reset({
 			name: '',
 			image: '',
-			active: true,
 		})
 	}
 
@@ -47,16 +45,15 @@ function CatFormModal(props) {
 
 	const onSubmit = data => {
 		const formData = new FormData()
-		if (data.name) {
-			formData.append('name', data.name)
-		}
+
+		formData.append('name', data.name)
+
 		if (data.image && data.image.length > 0) {
 			formData.append('image', data.image[0])
 		}
 		if (parentId) {
 			formData.append('parentId', parentId)
 		}
-		formData.append('active', data.active)
 
 		if (prefillData && prefillData.id) {
 			const payload = {
@@ -68,17 +65,6 @@ function CatFormModal(props) {
 			dispatch(addCategory(formData))
 		}
 	}
-
-	const options = [
-		{
-			value: true,
-			name: 'Yes',
-		},
-		{
-			value: false,
-			name: 'No',
-		},
-	]
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
@@ -100,16 +86,6 @@ function CatFormModal(props) {
 						accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 						message={errors.image?.message}
 						url={prefillData?.url}
-					/>
-
-					<Select
-						name='active'
-						label='Active'
-						options={options}
-						register={register}
-						placeholder='-- Select One --'
-						message={errors.active?.message}
-						className='input'
 					/>
 
 					<div className='buttons'>
@@ -144,8 +120,7 @@ function CatFormModal2(props) {
 	useEffect(() => {
 		if (prefillData) {
 			setValue('name', prefillData.name)
-			setValue('active', prefillData.active)
-			setValue('attributeCollection', prefillData.attributeCollection)
+			setValue('attributeCollection', prefillData.attributeCollection?._id)
 		}
 	}, [prefillData, setValue])
 
@@ -153,7 +128,7 @@ function CatFormModal2(props) {
 		reset({
 			name: '',
 			image: '',
-			active: true,
+			attributeCollection: '',
 		})
 	}
 
@@ -187,28 +162,18 @@ function CatFormModal2(props) {
 
 	const options = [
 		{
-			value: true,
-			name: 'Yes',
-		},
-		{
-			value: false,
-			name: 'No',
+			value: '',
+			name: '-- Select One --',
 		},
 	]
-
-	const options2 = collections
+	collections
 		.filter(collection => collection.active)
-		.map(collection => {
-			return {
+		.forEach(collection => {
+			options.push({
 				value: collection._id,
 				name: collection.name,
-			}
+			})
 		})
-
-	options2.unshift({
-		value: '',
-		name: '-- Select One --',
-	})
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
@@ -233,21 +198,10 @@ function CatFormModal2(props) {
 					/>
 
 					<Select
-						name='active'
-						label='Active'
-						options={options}
-						register={register}
-						placeholder='-- Select One --'
-						message={errors.active?.message}
-						className='input'
-					/>
-
-					<Select
 						name='attributeCollection'
 						label='Attribute Collection'
-						options={options2}
+						options={options}
 						register={register}
-						placeholder='-- Select One --'
 						message={errors.attributeCollection?.message}
 						className='input'
 					/>

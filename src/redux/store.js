@@ -5,12 +5,12 @@ import attributeReducer from './features/attribute-slice'
 import productReducer from './features/product-slice'
 
 const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        category: categoryReducer,
-        attribute: attributeReducer,
-        product: productReducer,
-    },
+	reducer: {
+		auth: authReducer,
+		category: categoryReducer,
+		attribute: attributeReducer,
+		product: productReducer,
+	},
 })
 
 export default store

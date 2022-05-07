@@ -129,6 +129,4 @@ const productValidation = yup.object({
 		}),
 })
 
-
-
 export { productValidation }

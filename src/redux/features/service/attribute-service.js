@@ -21,58 +21,73 @@ export const addCollectionRequest = async payload => {
 }
 
 export const updateCollectionRequest = async payload => {
-	const response = await fetch(`${API_URL}/api/attribute/update-collection`, {
-		credentials: 'include',
-		method: 'PUT',
-		body: JSON.stringify(payload),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
+	const { collectionId, data } = payload
+	const response = await fetch(
+		`${API_URL}/api/attribute/update-collection/${collectionId}`,
+		{
+			credentials: 'include',
+			method: 'PUT',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+	)
 	return response
 }
 
 export const deleteCollectionRequest = async payload => {
-	const response = await fetch(`${API_URL}/api/attribute/${payload}`, {
-		credentials: 'include',
-		method: 'DELETE',
-	})
+	const response = await fetch(
+		`${API_URL}/api/attribute/delete-collection/${payload}`,
+		{
+			credentials: 'include',
+			method: 'DELETE',
+		}
+	)
 	return response
 }
 
 export const addAttrubuteRequest = async payload => {
-	const response = await fetch(`${API_URL}/api/attribute/add-attribute`, {
-		credentials: 'include',
-		method: 'PUT',
-		body: JSON.stringify(payload),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
+	const { collectionId, data } = payload
+	const response = await fetch(
+		`${API_URL}/api/attribute/add-attribute/${collectionId}`,
+		{
+			credentials: 'include',
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+	)
 	return response
 }
 
 export const updateAttributeRequest = async payload => {
-	const response = await fetch(`${API_URL}/api/attribute/update-attribute`, {
-		credentials: 'include',
-		method: 'PUT',
-		body: JSON.stringify(payload),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
+	const { collectionId, attributeId, data } = payload
+	const response = await fetch(
+		`${API_URL}/api/attribute/update-attribute/${collectionId}/${attributeId}`,
+		{
+			credentials: 'include',
+			method: 'PUT',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+	)
 	return response
 }
 
 export const deleteAttributeRequest = async payload => {
-	const response = await fetch(`${API_URL}/api/attribute/delete-attribute`, {
-		credentials: 'include',
-		method: 'DELETE',
-		body: JSON.stringify(payload),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
+	const { collectionId, attributeId } = payload
+	const response = await fetch(
+		`${API_URL}/api/attribute/delete-attribute/${collectionId}/${attributeId}`,
+		{
+			credentials: 'include',
+			method: 'DELETE',
+		}
+	)
 	return response
 }
 

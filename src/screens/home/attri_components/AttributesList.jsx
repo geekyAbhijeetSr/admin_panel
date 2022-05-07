@@ -14,11 +14,10 @@ function AttributesList(props) {
 	const [isDelModalOpen, setIsDelModalOpen] = useState(false)
 
 	const [prefillData, setPrefillData] = useState(null)
+	const [attributeId, setAttributeId] = useState(null)
 	const [delAttribute, setDelAttribute] = useState(null)
 
-	const collection = collections.find(
-		coll => coll._id === selectedCollection
-	)
+	const collection = collections.find(coll => coll._id === selectedCollection)
 	const attributeList = collection ? collection.attributes : []
 
 	// add attribute form modal open and close
@@ -32,12 +31,10 @@ function AttributesList(props) {
 
 	// edit attribute form modal open and close
 	const handleOpenEditModal = attribute => {
+		setAttributeId(attribute._id)
 		setPrefillData({
-			attributeId: attribute._id,
 			name: attribute.name,
-			type: attribute.type,
 			placeholder: attribute.placeholder,
-			active: attribute.active,
 		})
 		setIsEditModalOpen(true)
 	}
@@ -76,6 +73,7 @@ function AttributesList(props) {
 				onClose={handleCloseEditModal}
 				placeholder='Series'
 				collectionId={selectedCollection}
+				attributeId={attributeId}
 				prefillData={prefillData}
 			/>
 			<DelAttributeModal

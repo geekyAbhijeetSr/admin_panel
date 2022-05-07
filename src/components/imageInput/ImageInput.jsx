@@ -21,13 +21,15 @@ function ImageInput(props) {
 
 	return (
 		<div className='image-input-container'>
-			<span className='image-input-label'>{label} {requiredField && <span className='required'>*</span> }</span>
+			<span className='image-input-label'>
+				{label} {requiredField && <span className='required'>*</span>}
+			</span>
 
 			<label className={`add-image ${message ? 'error' : ''}`} htmlFor={name}>
 				<img
 					src={
 						preview ||
-						'https://res.cloudinary.com/cloudinary-v3/image/upload/v1646479053/placeholder_ezsd3z.webp'
+						'https://res.cloudinary.com/cloudinary-v3/image/upload/v1646479053/Assets/placeholder_ezsd3z.webp'
 					}
 					alt='preview'
 				/>

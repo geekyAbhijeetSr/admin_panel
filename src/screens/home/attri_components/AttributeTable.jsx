@@ -3,6 +3,7 @@ import emptyList from '../../../assets/images/empty-list.svg'
 import { Switch } from '../../../components'
 import { useDispatch } from 'react-redux'
 import { toggleActiveStatusAttribute } from '../../../redux/features/attribute-slice'
+import { textAbstract } from '../../../helper/util'
 
 function AttributeTable(props) {
 	const {
@@ -16,7 +17,7 @@ function AttributeTable(props) {
 
 	const dispatch = useDispatch()
 
-	const onToggle = (attribute) => {
+	const onToggle = attribute => {
 		const payload = {
 			id,
 			attributeId: attribute._id,
@@ -31,7 +32,7 @@ function AttributeTable(props) {
 					<tr>
 						<th>#</th>
 						<th>Attribute Name</th>
-						<th>Type</th>
+						<th>Placeholder</th>
 						<th>Active</th>
 						<th>Actions</th>
 					</tr>
@@ -43,13 +44,15 @@ function AttributeTable(props) {
 							<tr key={attribute._id}>
 								<td className='no'>{index + 1}</td>
 								<td className='name'>{attribute.name}</td>
-								<td className='type'>{attribute.type === 'text' ? "Text" : (attribute.type === "text-array") ? "Text Array": ""}</td>
+								<td className='placeholder'>
+									{textAbstract(attribute.placeholder, 12)}
+								</td>
 								<td>
 									<Switch
 										active={attribute.active}
 										onClick={() => onToggle(attribute)}
 									/>
-									</td>
+								</td>
 								<td className='action'>
 									<md.MdEdit
 										className='edit'

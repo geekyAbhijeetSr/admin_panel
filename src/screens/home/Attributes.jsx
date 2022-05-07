@@ -9,7 +9,7 @@ import { Spinner2 } from '../../components'
 import { toast } from 'react-toastify'
 
 function Attributes() {
-	const { isLoadingAttr, message, error } = useSelector(
+	const { isLoadingAttr, messageAttr, errorAttr } = useSelector(
 		state => state.attribute
 	)
 	const [activeCard, setActiveCard] = useState('collections')
@@ -56,15 +56,15 @@ function Attributes() {
 
 	useEffect(() => {
 		dispatch(getCollections())
-		if (error) {
-			toast.error(error)
+		if (errorAttr) {
+			toast.error(errorAttr)
 			dispatch(resetAttribute())
 		}
-		if (message) {
-			toast.success(message)
+		if (messageAttr) {
+			toast.success(messageAttr)
 			dispatch(resetAttribute())
 		}
-	}, [dispatch, error, message])
+	}, [dispatch, errorAttr, messageAttr])
 
 	return (
 		<div className='attributes'>

@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from './redux/features/auth-slice'
-import { useEffect } from 'react'		
+import { useEffect } from 'react'
 import { Header } from './components'
 import { Login, Signup, Home } from './screens'
 
@@ -20,7 +20,6 @@ function App() {
 					dispatch(logout())
 				}
 			}
-
 		}, 1000)
 
 		if (!exp) {

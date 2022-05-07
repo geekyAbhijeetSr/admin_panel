@@ -5,7 +5,7 @@ export const getAllCategoryRequest = async () => {
 	return response
 }
 
-export const addCategoryRequest = async (category) => {
+export const addCategoryRequest = async category => {
 	const response = await fetch(`${API_URL}/api/category/create`, {
 		credentials: 'include',
 		method: 'POST',
@@ -23,7 +23,7 @@ export const updateCategoryRequest = async (category, catId) => {
 	return response
 }
 
-export const deleteCategoryRequest = async (categoryId) => {
+export const deleteCategoryRequest = async categoryId => {
 	const response = await fetch(`${API_URL}/api/category/${categoryId}`, {
 		credentials: 'include',
 		method: 'DELETE',
@@ -31,13 +31,10 @@ export const deleteCategoryRequest = async (categoryId) => {
 	return response
 }
 
-export const toggleActiveStatusCategoryRequest = async (categoryId) => {
-	const response = await fetch(
-		`${API_URL}/api/category/toggle/${categoryId}`,
-		{
-			credentials: 'include',
-			method: 'PUT',
-		}
-	)
+export const toggleActiveStatusCategoryRequest = async categoryId => {
+	const response = await fetch(`${API_URL}/api/category/toggle/${categoryId}`, {
+		credentials: 'include',
+		method: 'PUT',
+	})
 	return response
 }

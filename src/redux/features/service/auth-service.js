@@ -1,7 +1,7 @@
 const API_URL = process.env.REACT_APP_API_URL
 
 export const loginRequest = async body => {
-	const response = await fetch(`${API_URL}/api/auth/admin/login/`, {
+	const response = await fetch(`${API_URL}/api/auth/dashboard/login/`, {
 		credentials: 'include',
 		method: 'POST',
 		headers: {
@@ -13,7 +13,7 @@ export const loginRequest = async body => {
 }
 
 export const signupRequest = async body => {
-	const response = await fetch(`${API_URL}/api/auth/admin/signup`, {
+	const response = await fetch(`${API_URL}/api/auth/dashboard/signup`, {
 		credentials: 'include',
 		method: 'POST',
 		headers: {

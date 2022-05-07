@@ -174,13 +174,11 @@ const categorySlice = createSlice({
 			)
 
 			state.parentCategories = parentCategories
-		}, 
-		[toggleActiveStatusCategory.fulfilled]: (state, action) => { 
+		},
+		[toggleActiveStatusCategory.fulfilled]: (state, action) => {
 			const { category } = action.payload
 
-			const index = state.categories.findIndex(
-				cat => cat._id === category._id
-			)
+			const index = state.categories.findIndex(cat => cat._id === category._id)
 			state.categories[index] = category
 
 			const parentCategories = state.categories.filter(

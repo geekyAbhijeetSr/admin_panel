@@ -1,16 +1,16 @@
 .modal {
-    position: fixed;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    height: auto;
-    background: var(--color-white);
-    border-radius: var(--border-radius-medium);
-    padding: 2rem;
-    outline: none;
-    border: none;
-    z-index: 9999;
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: auto;
+	height: auto;
+	background: var(--color-white);
+	border-radius: var(--border-radius-medium);
+	padding: 2rem;
+	outline: none;
+	border: none;
+	z-index: 9999;
 }
 
 .modal .modal-confirm {
@@ -18,15 +18,15 @@
 }
 
 .madal .modal-small-form {
-    max-width: 300px;
+	max-width: 300px;
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 9998;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 9998;
 }

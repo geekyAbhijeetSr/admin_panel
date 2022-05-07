@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { collectionValidation } from '../../../validation/attribute-validation'
 import { useDispatch } from 'react-redux'
-import { Input, Button, Modal, Select } from '../../../components'
+import { Input, Button, Modal } from '../../../components'
 import {
 	addCollection,
 	updateCollection,
@@ -26,14 +26,12 @@ function CollectionFormModal(props) {
 	useEffect(() => {
 		if (prefillData) {
 			setValue('name', prefillData.name)
-			setValue('active', prefillData.active)
 		}
 	}, [prefillData, setValue])
 
 	const resetForm = () => {
 		reset({
 			name: '',
-			active: true,
 		})
 	}
 
@@ -43,55 +41,29 @@ function CollectionFormModal(props) {
 	}
 
 	const onSubmit = data => {
-		if (prefillData && prefillData.id) {
-			const newData = {
-				id: prefillData.id,
-				name: data.name,
-				active: data.active,
+		if (prefillData && prefillData.collectionId) {
+			const payload = {
+				data,
+				collectionId: prefillData.collectionId,
 			}
-			dispatch(updateCollection(newData))
+			dispatch(updateCollection(payload))
 		} else {
 			dispatch(addCollection(data))
 		}
 		resetForm()
 	}
 
-	const options = [
-		{
-			value: true,
-			name: 'Yes',
-		},
-		{
-			value: false,
-			name: 'No',
-		},
-	]
-
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
 			<div className='modal-small-form'>
-				<form
-					onSubmit={handleSubmit(onSubmit)}
-					noValidate
-					spellCheck='false'
-				>
+				<form onSubmit={handleSubmit(onSubmit)} noValidate spellCheck='false'>
 					<Input
 						label='Collection Name'
 						name='name'
 						type='text'
-						placeholder="e.g. Processor"
+						placeholder='e.g. Processor'
 						register={register}
 						message={errors.name?.message}
-					/>
-
-					<Select
-						name='active'
-						label='Active'
-						options={options}
-						register={register}
-						placeholder='-- Select One --'
-						message={errors.active?.message}
-						className='input'
 					/>
 
 					<div className='buttons'>
@@ -136,4 +108,4 @@ function DelCollectionModal(props) {
 	)
 }
 
-export {  CollectionFormModal, DelCollectionModal }
+export { CollectionFormModal, DelCollectionModal }

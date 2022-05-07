@@ -14,7 +14,7 @@ function CollectionTable(props) {
 	} = props
 	const dispatch = useDispatch()
 
-	const onToggle = (collection) => {
+	const onToggle = collection => {
 		dispatch(toggleActiveStatusCollection(collection))
 	}
 

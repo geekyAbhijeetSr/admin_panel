@@ -22,7 +22,6 @@ const catValidation1 = yup.object({
 			if (!value[0]) return true
 			return value[0].size <= 2000000 // 2mb
 		}),
-	active: yup.boolean().required('Active is required'),
 })
 
 const catValidation2 = yup.object({
@@ -44,7 +43,6 @@ const catValidation2 = yup.object({
 			if (!value[0]) return true
 			return value[0].size <= 2000000 // 2mb
 		}),
-	active: yup.boolean().required('Active is required'),
 })
 
 const catValidation21 = yup.object({
@@ -69,7 +67,6 @@ const catValidation21 = yup.object({
 			if (!value[0]) return true
 			return value[0].size <= 2000000 // 2mb
 		}),
-	active: yup.boolean().required('Active is required'),
 	attributeCollection: yup
 		.string()
 		.required('Attribute collection is required'),
@@ -94,7 +91,6 @@ const catValidation22 = yup.object({
 			if (!value[0]) return true
 			return value[0].size <= 2000000 // 2mb
 		}),
-	active: yup.boolean().required('Active is required'),
 	attributeCollection: yup
 		.string()
 		.test('required', 'Attribute collection is required', value => {

@@ -17,11 +17,11 @@ function CatTable(props) {
 
 	const dispatch = useDispatch()
 
-	const onToggle = (category) => {
+	const onToggle = category => {
 		const payload = {
 			categoryId: category._id,
 		}
-		dispatch(toggleActiveStatusCategory(payload))		
+		dispatch(toggleActiveStatusCategory(payload))
 	}
 
 	return (
@@ -63,8 +63,7 @@ function CatTable(props) {
 										active={category.active}
 									/>
 								</td>
-								{thirdLayer && (
-									<td>{category.attributeCollection.name}</td>)}
+								{thirdLayer && <td>{category.attributeCollection.name}</td>}
 								<td className='action'>
 									<md.MdEdit
 										className='edit'

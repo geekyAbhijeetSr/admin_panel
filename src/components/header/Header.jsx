@@ -21,7 +21,7 @@ function Header() {
 					<div className='nav-container'>
 						<div className='logo'>
 							<Link className='link' to='/'>
-								<span className="b">bit</span>Mart
+								<span className='b'>bit</span>Mart
 							</Link>
 						</div>
 

@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { loginRequest, signupRequest, logoutRequest } from './service/auth-service'
+import {
+	loginRequest,
+	signupRequest,
+	logoutRequest,
+} from './service/auth-service'
 
 const initialState = {
 	isLoadingAuth: false,

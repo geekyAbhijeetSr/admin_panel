@@ -26,9 +26,8 @@ function AttributeCollections() {
 	// edit collection form modal open and close
 	const handleOpenEditModal = collection => {
 		setPrefillData({
-			id: collection._id,
+			collectionId: collection._id,
 			name: collection.name,
-			active: collection.active,
 		})
 		setIsEditModalOpen(true)
 	}
@@ -54,10 +53,7 @@ function AttributeCollections() {
 
 	return (
 		<div>
-			<CollectionFormModal
-				isOpen={isModalOpen}
-				onClose={handleCloseModal}
-			/>
+			<CollectionFormModal isOpen={isModalOpen} onClose={handleCloseModal} />
 			<CollectionFormModal
 				isOpen={isEditModalOpen}
 				onClose={handleCloseEditModal}

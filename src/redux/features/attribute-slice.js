@@ -55,15 +55,15 @@ export const updateCollection = createAsyncThunk(
 )
 
 export const deleteCollection = createAsyncThunk(
-    'attribute/deleteCollection',
-    async (payload, thunkAPI) => {
-        const response = await deleteCollectionRequest(payload)
-        const data = await response.json()
-        if (response.ok) {
-            return data
-        }
-        return thunkAPI.rejectWithValue(data)
-    }
+	'attribute/deleteCollection',
+	async (payload, thunkAPI) => {
+		const response = await deleteCollectionRequest(payload)
+		const data = await response.json()
+		if (response.ok) {
+			return data
+		}
+		return thunkAPI.rejectWithValue(data)
+	}
 )
 
 export const addAttribute = createAsyncThunk(
@@ -173,26 +173,26 @@ const attributeSlice = createSlice({
 			state.collections[index] = action.payload.attributeCollection
 			state.messageAttr = action.payload.message
 			state.isLoadingAttr = false
-        },
-        [updateCollection.rejected]: (state, action) => {
-            state.errorAttr = action.payload.error
-            state.isLoadingAttr = false
-        },
-        // deleteCollection
-        [deleteCollection.pending]: (state, action) => {
-            state.isLoadingAttr = true
-        },
-        [deleteCollection.fulfilled]: (state, action) => {
-            const index = state.collections.findIndex(
-                collection => collection._id === action.payload.id
-            )
-            state.collections.splice(index, 1)
-            state.messageAttr = action.payload.message
-            state.isLoadingAttr = false
-        },
-        [deleteCollection.rejected]: (state, action) => {
-            state.errorAttr = action.payload.error
-            state.isLoadingAttr = false
+		},
+		[updateCollection.rejected]: (state, action) => {
+			state.errorAttr = action.payload.error
+			state.isLoadingAttr = false
+		},
+		// deleteCollection
+		[deleteCollection.pending]: (state, action) => {
+			state.isLoadingAttr = true
+		},
+		[deleteCollection.fulfilled]: (state, action) => {
+			const index = state.collections.findIndex(
+				collection => collection._id === action.payload.id
+			)
+			state.collections.splice(index, 1)
+			state.messageAttr = action.payload.message
+			state.isLoadingAttr = false
+		},
+		[deleteCollection.rejected]: (state, action) => {
+			state.errorAttr = action.payload.error
+			state.isLoadingAttr = false
 		},
 		// addAttribute
 		[addAttribute.pending]: (state, action) => {
@@ -282,7 +282,7 @@ const attributeSlice = createSlice({
 		},
 		[toggleActiveStatusAttribute.rejected]: (state, action) => {
 			state.errorAttr = action.payload.error
-		}
+		},
 	},
 })
 

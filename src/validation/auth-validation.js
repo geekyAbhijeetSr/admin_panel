@@ -22,7 +22,4 @@ const loginValidation = yup.object({
 	password: yup.string().required('Enter your password'),
 })
 
-export {
-    signupValidation,
-    loginValidation
-}
+export { signupValidation, loginValidation }

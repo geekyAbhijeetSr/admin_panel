@@ -1,15 +1,8 @@
 import './input.css'
 
 function Input(props) {
-	const {
-		type,
-		name,
-		label,
-		placeholder,
-		register,
-		message,
-		requiredField,
-	} = props
+	const { type, name, label, placeholder, register, message, requiredField } =
+		props
 	const renderInput = () => {
 		switch (type) {
 			case 'textarea':

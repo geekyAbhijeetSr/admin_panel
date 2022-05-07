@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { attributeValidation } from '../../../validation/attribute-validation'
 import { useDispatch } from 'react-redux'
-import { Input, Select, Button, Modal } from '../../../components'
+import { Input, Button, Modal } from '../../../components'
 import {
 	addAttribute,
 	updateAttribute,
@@ -11,8 +11,7 @@ import {
 } from '../../../redux/features/attribute-slice'
 
 function AttributeFormModal(props) {
-	// id, name, type, placeholder, active
-	const { isOpen, onClose, collectionId, prefillData } = props
+	const { isOpen, onClose, collectionId, attributeId, prefillData } = props
 	const {
 		register,
 		handleSubmit,
@@ -27,9 +26,7 @@ function AttributeFormModal(props) {
 	useEffect(() => {
 		if (prefillData) {
 			setValue('name', prefillData.name)
-			setValue('type', prefillData.type)
 			setValue('placeholder', prefillData.placeholder)
-			setValue('active', prefillData.active)
 		}
 	}, [prefillData, setValue])
 
@@ -50,36 +47,21 @@ function AttributeFormModal(props) {
 	const onSubmit = data => {
 		const payload = {
 			collectionId,
-			...data,
+			data,
 		}
-		if (prefillData) {
-			payload.attributeId = prefillData.attributeId
+		if (attributeId) {
+			payload.attributeId = attributeId
 			dispatch(updateAttribute(payload))
-		}
-		else {
+		} else {
 			dispatch(addAttribute(payload))
 		}
 		resetForm()
 	}
-	
-	const activeOptions = [
-		{ value: true, name: 'Yes' },
-		{ value: false, name: 'No' },
-	]
-
-	const typeOptions = [
-		{ value: 'text', name: 'Text' },
-		{ value: 'text-array', name: 'Text Array' },
-	]
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
 			<div className='addcatform'>
-				<form
-					onSubmit={handleSubmit(onSubmit)}
-					noValidate
-					spellCheck='false'
-				>
+				<form onSubmit={handleSubmit(onSubmit)} noValidate spellCheck='false'>
 					<Input
 						label='Attribute Name'
 						name='name'
@@ -89,29 +71,13 @@ function AttributeFormModal(props) {
 						message={errors.name?.message}
 					/>
 
-					<Select
-						label='Type'
-						name='type'
-						options={typeOptions}
-						register={register}
-						message={errors.type?.message}
-					/>
-
 					<Input
 						label='Placeholder'
 						name='placeholder'
 						type='text'
-						placeholder="Placeholder text"
+						placeholder='Placeholder text'
 						register={register}
 						message={errors.placeholder?.message}
-					/>
-
-					<Select
-						label='Active'
-						name='active'
-						options={activeOptions}
-						register={register}
-						message={errors.active?.message}
 					/>
 
 					<div className='buttons'>
@@ -127,16 +93,13 @@ function AttributeFormModal(props) {
 }
 
 function DelAttributeModal(props) {
-	const {
-		isOpen,
-		onClose,
-		delAttribute,
-		id
-	} = props
+	const { isOpen, onClose, delAttribute, id } = props
 	const dispatch = useDispatch()
 
 	const onDelete = () => {
-		dispatch(deleteAttribute({ collectionId: id, attributeId: delAttribute._id }))
+		dispatch(
+			deleteAttribute({ collectionId: id, attributeId: delAttribute._id })
+		)
 	}
 
 	return (

@@ -3,25 +3,31 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Spinner2 } from '../../components'
 import { toast } from 'react-toastify'
 import { getCategory, resetCat } from '../../redux/features/category-slice'
+import { getProducts, resetProduct } from '../../redux/features/product-slice'
 import { ProductList, ProductCreate } from './prod_components'
 import './styles/product.css'
 
 function Products() {
-	const [activePage, setActivePage] = useState("ProductList")
-	const { isLoadingCat, messageCat, errorCat } = useSelector(state => state.category)
+	const [activePage, setActivePage] = useState('ProductList')
+	const { isLoadingCat, messageCat, errorCat } = useSelector(
+		state => state.category
+	)
+
+	const { errorProduct } = useSelector(state => state.product)
 
 	const dispatch = useDispatch()
 
 	const openProductForm = () => {
-		setActivePage("ProductCreate")
+		setActivePage('ProductCreate')
 	}
 
 	const backToProductList = () => {
-		setActivePage("ProductList")
+		setActivePage('ProductList')
 	}
 
 	useEffect(() => {
 		dispatch(getCategory())
+		dispatch(getProducts({ page: 1, limit: 12 }))
 		if (errorCat) {
 			toast.error(errorCat)
 			dispatch(resetCat())
@@ -29,6 +35,10 @@ function Products() {
 		if (messageCat) {
 			toast.success(messageCat)
 			dispatch(resetCat())
+		}
+		if (errorProduct) {
+			toast.error(errorProduct)
+			dispatch(resetProduct())
 		}
 	}, [dispatch, errorCat, messageCat])
 
@@ -43,8 +53,8 @@ function Products() {
 		}
 	}
 	return (
-		<div className='content'>
-			{renderComponent()}
+		<div className='products_container'>
+			<div className='content'>{renderComponent()}</div>
 		</div>
 	)
 }

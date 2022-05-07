@@ -1,7 +1,4 @@
-import ProductList from "./productList";
-import ProductCreate from "./productCreate";
+import ProductList from './productList'
+import ProductCreate from './productCreate'
 
-export {
-    ProductList,
-    ProductCreate
-}
+export { ProductList, ProductCreate }

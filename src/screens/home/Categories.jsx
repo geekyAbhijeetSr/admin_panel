@@ -8,7 +8,9 @@ import { Spinner2 } from '../../components'
 import './styles/categories.css'
 
 function Categories() {
-	const { isLoadingCat, messageCat, errorCat } = useSelector(state => state.category)
+	const { isLoadingCat, messageCat, errorCat } = useSelector(
+		state => state.category
+	)
 	const dispatch = useDispatch()
 	const [activeCard, setActiveCard] = useState('category1')
 	const cards = [
@@ -55,7 +57,7 @@ function Categories() {
 		dispatch(getCategory())
 		dispatch(getCollections())
 		if (errorCat) {
-			toast.errorCat(errorCat)
+			toast.error(errorCat)
 			dispatch(resetCat())
 		}
 		if (messageCat) {

@@ -1,4 +1,6 @@
-.categories {
+.categories,
+.attributes,
+.products_container {
 	width: 100%;
 	height: 100%;
 }

@@ -64,7 +64,6 @@ label .required {
 p.error {
 	color: var(--color-red);
 	font-size: var(--font-size-small);
-	margin-bottom: 1rem;
 }
 
 p.error .error-sign {
