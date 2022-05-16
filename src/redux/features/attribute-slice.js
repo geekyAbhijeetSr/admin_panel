@@ -10,12 +10,12 @@ import {
 	toggleActiveStatusCollectionRequest,
 	toggleActiveStatusAttributeRequest,
 } from './service/attribute-service'
+import { toast } from 'react-toastify'
 
 const initialState = {
 	isLoadingAttr: false,
-	errorAttr: null,
-	messageAttr: null,
-	collections: null,
+	isCRUDingAttr: false,
+	collections: [],
 }
 
 export const getCollections = createAsyncThunk(
@@ -129,13 +129,7 @@ export const toggleActiveStatusAttribute = createAsyncThunk(
 const attributeSlice = createSlice({
 	name: 'attribute',
 	initialState,
-	reducers: {
-		resetAttribute: state => {
-			state.isLoadingAttr = false
-			state.errorAttr = null
-			state.messageAttr = null
-		},
-	},
+	reducers: {},
 	extraReducers: {
 		// getCollections
 		[getCollections.pending]: (state, action) => {
@@ -146,102 +140,110 @@ const attributeSlice = createSlice({
 			state.isLoadingAttr = false
 		},
 		[getCollections.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
 			state.isLoadingAttr = false
+			toast.error(action.payload.error)
 		},
+
 		// addCollection
 		[addCollection.pending]: (state, action) => {
-			state.isLoadingAttr = true
+			state.isCRUDingAttr = true
 		},
 		[addCollection.fulfilled]: (state, action) => {
+			if (!Array.isArray(state.collections)) state.collections = []
 			state.collections.push(action.payload.attributeCollection)
-			state.messageAttr = action.payload.message
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.success(action.payload.message)
 		},
 		[addCollection.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.error(action.payload.error)
 		},
+
 		// updateCollection
 		[updateCollection.pending]: (state, action) => {
-			state.isLoadingAttr = true
+			state.isCRUDingAttr = true
 		},
 		[updateCollection.fulfilled]: (state, action) => {
 			const index = state.collections.findIndex(
 				collection => collection._id === action.payload.attributeCollection._id
 			)
 			state.collections[index] = action.payload.attributeCollection
-			state.messageAttr = action.payload.message
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.success(action.payload.message)
 		},
 		[updateCollection.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.error(action.payload.error)
 		},
+
 		// deleteCollection
 		[deleteCollection.pending]: (state, action) => {
-			state.isLoadingAttr = true
+			state.isCRUDingAttr = true
 		},
 		[deleteCollection.fulfilled]: (state, action) => {
 			const index = state.collections.findIndex(
 				collection => collection._id === action.payload.id
 			)
 			state.collections.splice(index, 1)
-			state.messageAttr = action.payload.message
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.success(action.payload.message)
 		},
 		[deleteCollection.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.error(action.payload.error)
 		},
+
 		// addAttribute
 		[addAttribute.pending]: (state, action) => {
-			state.isLoadingAttr = true
+			state.isCRUDingAttr = true
 		},
 		[addAttribute.fulfilled]: (state, action) => {
 			const index = state.collections.findIndex(
 				collection => collection._id === action.payload.attributeCollection._id
 			)
 			state.collections[index] = action.payload.attributeCollection
-			state.messageAttr = action.payload.message
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.success(action.payload.message)
 		},
 		[addAttribute.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.error(action.payload.error)
 		},
+
 		// updateAttribute
 		[updateAttribute.pending]: (state, action) => {
-			state.isLoadingAttr = true
+			state.isCRUDingAttr = true
 		},
 		[updateAttribute.fulfilled]: (state, action) => {
 			const index = state.collections.findIndex(
 				collection => collection._id === action.payload.attributeCollection._id
 			)
 			state.collections[index] = action.payload.attributeCollection
-			state.messageAttr = action.payload.message
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.success(action.payload.message)
 		},
 		[updateAttribute.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.error(action.payload.error)
 		},
+
 		// deleteAttribute
 		[deleteAttribute.pending]: (state, action) => {
-			state.isLoadingAttr = true
+			state.isCRUDingAttr = true
 		},
 		[deleteAttribute.fulfilled]: (state, action) => {
 			const index = state.collections.findIndex(
 				collection => collection._id === action.payload.id
 			)
 			state.collections[index] = action.payload.attributeCollection
-			state.messageAttr = action.payload.message
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.success(action.payload.message)
 		},
 		[deleteAttribute.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
-			state.isLoadingAttr = false
+			state.isCRUDingAttr = false
+			toast.error(action.payload.error)
 		},
+
 		// toggleActiveStatusCollection
 		[toggleActiveStatusCollection.pending]: (state, action) => {
 			const { _id } = action.meta.arg
@@ -258,8 +260,9 @@ const attributeSlice = createSlice({
 			state.collections[index] = attributeCollection
 		},
 		[toggleActiveStatusCollection.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
+			toast.error(action.payload.error)
 		},
+
 		// toggleActiveStatusAttribute
 		[toggleActiveStatusAttribute.pending]: (state, action) => {
 			const { id, attributeId } = action.meta.arg
@@ -281,13 +284,11 @@ const attributeSlice = createSlice({
 			state.collections[index] = attributeCollection
 		},
 		[toggleActiveStatusAttribute.rejected]: (state, action) => {
-			state.errorAttr = action.payload.error
+			toast.error(action.payload.error)
 		},
 	},
 })
 
-const { actions, reducer } = attributeSlice
-
-export const { resetAttribute } = actions
+const { reducer } = attributeSlice
 
 export default reducer

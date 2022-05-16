@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { AttributeCollections, AttributesList } from './attri_components'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	getCollections,
-	resetAttribute,
 } from '../../redux/features/attribute-slice'
 import { Spinner2 } from '../../components'
-import { toast } from 'react-toastify'
 
 function Attributes() {
-	const { isLoadingAttr, messageAttr, errorAttr } = useSelector(
+	const renderCounter = useRef(0)
+	renderCounter.current++
+	const { isLoadingAttr } = useSelector(
 		state => state.attribute
 	)
 	const [activeCard, setActiveCard] = useState('collections')
@@ -55,16 +55,8 @@ function Attributes() {
 	}
 
 	useEffect(() => {
-		dispatch(getCollections())
-		if (errorAttr) {
-			toast.error(errorAttr)
-			dispatch(resetAttribute())
-		}
-		if (messageAttr) {
-			toast.success(messageAttr)
-			dispatch(resetAttribute())
-		}
-	}, [dispatch, errorAttr, messageAttr])
+			dispatch(getCollections())
+	}, [dispatch])
 
 	return (
 		<div className='attributes'>

@@ -173,18 +173,19 @@ function ProductCreate(props) {
 
 		data.properties = JSON.stringify(properties)
 
-		const imageInputFields = [
+		const imageInputFields = new Set([
 			'image_main',
 			'image_1',
 			'image_2',
 			'image_3',
 			'image_4',
 			'image_5',
-		]
+		])
 
 		const formData = new FormData()
+		
 		for (let key in data) {
-			if (imageInputFields.includes(key)) {
+			if (imageInputFields.has(key)) {
 				formData.append(key, data[key][0])
 			} else {
 				formData.append(key, data[key])

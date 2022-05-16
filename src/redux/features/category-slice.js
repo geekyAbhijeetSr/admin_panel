@@ -6,11 +6,10 @@ import {
 	updateCategoryRequest,
 	toggleActiveStatusCategoryRequest,
 } from './service/category-service'
+import { toast } from 'react-toastify'
 
 const initialState = {
 	isLoadingCat: false,
-	errorCat: null,
-	messageCat: null,
 	categories: null,
 	parentCategories: null,
 }
@@ -80,13 +79,7 @@ export const toggleActiveStatusCategory = createAsyncThunk(
 const categorySlice = createSlice({
 	name: 'category',
 	initialState,
-	reducers: {
-		resetCat: state => {
-			state.isLoadingCat = false
-			state.errorCat = null
-			state.messageCat = null
-		},
-	},
+	reducers: {},
 	extraReducers: {
 		// getCategory request
 		[getCategory.pending]: state => {
@@ -102,7 +95,7 @@ const categorySlice = createSlice({
 		},
 		[getCategory.rejected]: (state, action) => {
 			state.isLoadingCat = false
-			state.errorCat = action.payload.error
+			toast.error(action.payload.error)
 		},
 		// addCategory request
 		[addCategory.pending]: state => {
@@ -115,11 +108,11 @@ const categorySlice = createSlice({
 			)
 			state.parentCategories = parentCategories
 			state.isLoadingCat = false
-			state.messageCat = action.payload.message
+			toast.success(action.payload.message)
 		},
 		[addCategory.rejected]: (state, action) => {
 			state.isLoadingCat = false
-			state.errorCat = action.payload.error
+			toast.error(action.payload.error)
 		},
 		// deleteCategory request
 		[deleteCategory.pending]: state => {
@@ -134,11 +127,11 @@ const categorySlice = createSlice({
 			)
 			state.parentCategories = parentCategories
 			state.isLoadingCat = false
-			state.messageCat = action.payload.message
+			toast.success(action.payload.message)
 		},
 		[deleteCategory.rejected]: (state, action) => {
 			state.isLoadingCat = false
-			state.errorCat = action.payload.error
+			toast.error(action.payload.error)
 		},
 		// updateCategory request
 		[updateCategory.pending]: state => {
@@ -155,11 +148,11 @@ const categorySlice = createSlice({
 			)
 			state.parentCategories = parentCategories
 			state.isLoadingCat = false
-			state.messageCat = action.payload.message
+			toast.success(action.payload.message)
 		},
 		[updateCategory.rejected]: (state, action) => {
 			state.isLoadingCat = false
-			state.errorCat = action.payload.error
+			toast.error(action.payload.error)
 		},
 		// toggleActiveStatusCategory request
 		[toggleActiveStatusCategory.pending]: (state, action) => {
@@ -188,13 +181,11 @@ const categorySlice = createSlice({
 			state.parentCategories = parentCategories
 		},
 		[toggleActiveStatusCategory.rejected]: (state, action) => {
-			state.errorCat = action.payload.error
+			toast.error(action.payload.error)
 		},
 	},
 })
 
-const { reducer, actions } = categorySlice
-
-export const { resetCat } = actions
+const { reducer } = categorySlice
 
 export default reducer

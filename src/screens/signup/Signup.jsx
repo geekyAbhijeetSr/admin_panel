@@ -3,9 +3,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { signupValidation } from '../../validation/auth-validation'
 import { useDispatch, useSelector } from 'react-redux'
-import { signup, resetAuth } from '../../redux/features/auth-slice'
+import { signup } from '../../redux/features/auth-slice'
 import { useEffect } from 'react'
-import { toast } from 'react-toastify'
 import { Input, Button, Spinner } from '../../components'
 
 function Signup() {
@@ -17,7 +16,7 @@ function Signup() {
 		resolver: yupResolver(signupValidation),
 	})
 
-	const { user, errorAuth, isLoading } = useSelector(state => state.auth)
+	const { user, isLoading } = useSelector(state => state.auth)
 
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -32,12 +31,6 @@ function Signup() {
 		}
 	}, [user, navigate])
 
-	useEffect(() => {
-		if (errorAuth) {
-			toast.error(errorAuth)
-			dispatch(resetAuth())
-		}
-	}, [errorAuth, dispatch])
 
 	return (
 		<div className='signup-container'>

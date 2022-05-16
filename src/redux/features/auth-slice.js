@@ -4,11 +4,10 @@ import {
 	signupRequest,
 	logoutRequest,
 } from './service/auth-service'
+import { toast } from 'react-toastify'
 
 const initialState = {
 	isLoadingAuth: false,
-	errorAuth: null,
-	messageAuth: null,
 	user: null,
 	exp: null,
 }
@@ -58,13 +57,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 const authSlice = createSlice({
 	name: 'auth',
 	initialState,
-	reducers: {
-		resetAuth: state => {
-			state.isLoadingAuth = false
-			state.errorAuth = null
-			state.messageAuth = null
-		},
-	},
+	reducers: {},
 	extraReducers: {
 		// login request
 		[login.pending]: state => {
@@ -72,18 +65,22 @@ const authSlice = createSlice({
 		},
 		[login.fulfilled]: (state, action) => {
 			state.isLoadingAuth = false
+
 			state.user = action.payload.user
-			state.messageAuth = action.payload.message
 			state.exp = action.payload.exp
 			localStorage.setItem('exp', JSON.stringify(action.payload.exp))
 			localStorage.setItem('user', JSON.stringify(action.payload.user))
+
+			toast.success(action.payload.message)
 		},
 		[login.rejected]: (state, action) => {
 			state.isLoadingAuth = false
-			state.errorAuth =
+
+			toast.error(
 				action.payload.error ||
-				action.payload.errors[0].msg ||
-				'Oops! Something went wrong.'
+					action.payload.errors[0].msg ||
+					'Oops! Something went wrong.'
+			)
 		},
 		// signup request
 		[signup.pending]: (state, action) => {
@@ -91,31 +88,33 @@ const authSlice = createSlice({
 		},
 		[signup.fulfilled]: (state, action) => {
 			state.isLoadingAuth = false
+
 			state.user = action.payload.user
-			state.messageAuth = action.payload.message
 			state.exp = action.payload.exp
 			localStorage.setItem('exp', JSON.stringify(action.payload.exp))
 			localStorage.setItem('user', JSON.stringify(action.payload.user))
+
+			toast.success(action.payload.message)
 		},
 		[signup.rejected]: (state, action) => {
 			state.isLoadingAuth = false
-			state.errorAuth =
+
+			toast.error(
 				action.payload.error ||
 				action.payload.errors[0].msg ||
 				'Something went wrong'
+			)
 		},
 		// logout request
 		[logout.pending]: state => {
 			state.isLoadingAuth = false
-			state.errorAuth = null
 			state.user = null
-			state.messageAuth = null
 			state.exp = null
+
 			localStorage.clear()
 		},
 	},
 })
 
-const { reducer, actions } = authSlice
-export const { resetAuth } = actions
+const { reducer } = authSlice
 export default reducer

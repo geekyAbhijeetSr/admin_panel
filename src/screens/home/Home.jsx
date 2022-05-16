@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import * as md from 'react-icons/md'
 import {
 	Dashboard,
@@ -7,15 +7,10 @@ import {
 	Products,
 	Orders,
 } from './home-components'
-import { useSelector, useDispatch } from 'react-redux'
-import { toast } from 'react-toastify'
-import { resetAuth } from '../../redux/features/auth-slice'
 import './styles/home.css'
 
 function Home() {
 	const [activeTab, setActiveTab] = useState('dashboard')
-	const { messageAuth } = useSelector(state => state.auth)
-	const dispatch = useDispatch()
 	const tabs = [
 		{
 			id: 'dashboard',
@@ -51,13 +46,6 @@ function Home() {
 	const toggleActive = id => {
 		return activeTab === id ? 'tab active' : 'tab'
 	}
-
-	useEffect(() => {
-		if (messageAuth) {
-			toast.success(messageAuth)
-			dispatch(resetAuth())
-		}
-	}, [messageAuth, dispatch])
 
 	const renderComponent = () => {
 		switch (activeTab) {

@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import { getCategory, resetCat } from '../../redux/features/category-slice'
+import { getCategory } from '../../redux/features/category-slice'
 import { getCollections } from '../../redux/features/attribute-slice'
 import { Category1, Category2, Category3 } from './cat_components'
 import { Spinner2 } from '../../components'
 import './styles/categories.css'
 
 function Categories() {
-	const { isLoadingCat, messageCat, errorCat } = useSelector(
+	const { isLoadingCat } = useSelector(
 		state => state.category
 	)
+
 	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(getCategory())
+		dispatch(getCollections())
+	}, [dispatch])
+
 	const [activeCard, setActiveCard] = useState('category1')
 	const cards = [
 		{
@@ -52,19 +57,6 @@ function Categories() {
 	const changeHandler3_2 = e => {
 		setSelect_3_2(e.target.value)
 	}
-
-	useEffect(() => {
-		dispatch(getCategory())
-		dispatch(getCollections())
-		if (errorCat) {
-			toast.error(errorCat)
-			dispatch(resetCat())
-		}
-		if (messageCat) {
-			toast.success(messageCat)
-			dispatch(resetCat())
-		}
-	}, [dispatch, errorCat, messageCat])
 
 	const renderComponent = () => {
 		switch (activeCard) {

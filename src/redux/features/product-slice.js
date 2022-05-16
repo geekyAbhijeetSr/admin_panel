@@ -3,12 +3,13 @@ import {
 	createProductRequest,
 	getProductsRequest,
 } from './service/product-service'
+import { toast } from 'react-toastify'
 
 const initialState = {
-	isLoadingProduct: false,
-	errorProduct: null,
-	messageProduct: null,
+	isLoadingProducts: false,
+	isCRUDingProduct: false,
 	products: null,
+	justAddedProducts: [],
 }
 
 export const createProduct = createAsyncThunk(
@@ -38,43 +39,38 @@ export const getProducts = createAsyncThunk(
 const productSlice = createSlice({
 	name: 'product',
 	initialState,
-	reducers: {
-		resetProduct: state => {
-			state.isLoadingProduct = false
-			state.errorProduct = null
-			state.messageProduct = null
-		},
-	},
+	reducers: {},
 	extraReducers: {
 		// createProduct
 		[createProduct.pending]: (state, action) => {
-			state.isLoadingProduct = true
+			state.isCRUDingProduct = true
 		},
 		[createProduct.fulfilled]: (state, action) => {
-			state.products.push(action.payload.product)
-			state.isLoadingProduct = false
-			state.messageProduct = action.payload.message
+			if (!Array.isArray(state.justAddedProducts)) state.justAddedProducts = []
+			state.justAddedProducts.push(action.payload.product)
+			if (state.justAddedProducts.length > 5) state.justAddedProducts.shift()
+			state.isCRUDingProduct = false
+			toast.success(action.payload.message)
 		},
 		[createProduct.rejected]: (state, action) => {
-			state.isLoadingProduct = false
-			state.errorProduct = action.payload.error
+			state.isCRUDingProducts = false
+			toast.error(action.payload.error)
 		},
 		// getProducts
 		[getProducts.pending]: (state, action) => {
-			state.isLoadingProduct = true
+			state.isLoadingProducts = true
 		},
 		[getProducts.fulfilled]: (state, action) => {
-			state.isLoadingProduct = false
+			state.isLoadingProducts = false
 			state.products = action.payload.products
 		},
 		[getProducts.rejected]: (state, action) => {
-			state.isLoadingProduct = false
-			state.errorProduct = action.payload.error
+			state.isLoadingProducts = false
+			toast.error(action.payload.error)
 		},
 	},
 })
 
-const { reducer, actions } = productSlice
-export const { resetProduct } = actions
+const { reducer } = productSlice
 
 export default reducer
