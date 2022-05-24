@@ -4,15 +4,16 @@ import './modal.css'
 ReactModal.setAppElement('#modal')
 
 function Modal(props) {
+	const { isOpen, onRequestClose, children } = props
 	return (
 		<ReactModal
-			isOpen={props.isOpen}
-			onRequestClose={props.onRequestClose}
+			isOpen={isOpen}
+			onRequestClose={onRequestClose}
 			contentLabel='Example Modal'
 			className='modal'
 			overlayClassName='overlay'
 		>
-			{props.children}
+			{children}
 		</ReactModal>
 	)
 }

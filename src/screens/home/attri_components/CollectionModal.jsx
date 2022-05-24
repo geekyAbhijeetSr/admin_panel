@@ -67,10 +67,10 @@ function CollectionFormModal(props) {
 					/>
 
 					<div className='buttons'>
-						<Button variant='outline info' onClick={closeModal}>
+						<Button variant='only-text info' onClick={closeModal}>
 							Cancel
 						</Button>
-						<Button type='submit'>{prefillData ? 'Update' : 'Create'}</Button>
+						<Button type='submit' variant='only-text info'>{prefillData ? 'Update' : 'Add'}</Button>
 					</div>
 				</form>
 			</div>
@@ -96,10 +96,10 @@ function DelCollectionModal(props) {
 				<p>Are you sure you want to delete this attribute collection?</p>
 				<span>{name}</span>
 				<div className='buttons'>
-					<Button variant='outline info' onClick={onClose}>
+					<Button variant='only-text info' onClick={onClose}>
 						Cancel
 					</Button>
-					<Button type='button' variant='danger' onClick={onDelete}>
+					<Button type='button' variant='only-text danger' onClick={onDelete}>
 						Delete
 					</Button>
 				</div>

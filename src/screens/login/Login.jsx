@@ -64,7 +64,7 @@ function Login() {
 						Forgot your password?
 					</Link>
 
-					<Button type='submit'>Log In</Button>
+					<Button variant='outline primary' type='submit'>Log In</Button>
 
 					<p className='create-account'>
 						Don't have an account yet? <Link to='/signup'>Signup</Link>

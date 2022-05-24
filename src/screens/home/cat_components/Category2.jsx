@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { Button, Select } from '../../../components'
+import * as md from 'react-icons/md'
 import {
 	catValidation1,
 	catValidation2,
@@ -114,10 +115,12 @@ function Category2(props) {
 					/>
 				</div>
 				<Button
+					variant='outline primary'
 					disabled={selectedCategory ? false : true}
 					onClick={handleOpenModal}
 				>
-					Create
+					Add
+					<md.MdAdd />
 				</Button>
 			</div>
 

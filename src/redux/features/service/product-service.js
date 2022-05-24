@@ -12,8 +12,9 @@ export const createProductRequest = async product => {
 export const getProductsRequest = async payload => {
 	const { page, limit } = payload
 	const response = await fetch(
-		`${API_URL}/api/product/get?page=${page}&limit=${limit}`,
+		`${API_URL}/api/product/dashboard-get?page=${page}&limit=${limit}`,
 		{
+			credentials: 'include',
 			method: 'GET',
 		}
 	)

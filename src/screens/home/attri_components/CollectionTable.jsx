@@ -40,8 +40,8 @@ function CollectionTable(props) {
 								<td className='center'>{collection.attributes.length}</td>
 								<td>
 									<Switch
-										onClick={() => onToggle(collection)}
-										active={collection.active}
+										checked={collection.active}
+										onChange={() => onToggle(collection)}
 									/>
 								</td>
 								<td className='action'>

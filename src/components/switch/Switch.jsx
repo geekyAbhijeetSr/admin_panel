@@ -1,12 +1,12 @@
 import './switch.css'
 
-function Switch({ active, onClick }) {
+function Switch({ checked, onChange }) {
 	return (
 		<div>
 			<label className='switch'>
 				<input
-					onClick={onClick}
-					className={active ? 'active' : ''}
+					onChange={onChange}
+					checked={checked}
 					type='checkbox'
 				/>
 				<span className='slider round'></span>

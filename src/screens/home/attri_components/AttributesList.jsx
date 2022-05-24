@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { Button, Select } from '../../../components'
+import * as md from 'react-icons/md'
 import { AttributeFormModal, DelAttributeModal } from './AttributeModal'
 import AttributeTable from './AttributeTable'
 
@@ -95,10 +96,12 @@ function AttributesList(props) {
 					/>
 				</div>
 				<Button
+					variant='outline primary'
 					disabled={selectedCollection ? false : true}
 					onClick={handleOpenModal}
 				>
-					Create
+					Add
+					<md.MdAdd />
 				</Button>
 			</div>
 

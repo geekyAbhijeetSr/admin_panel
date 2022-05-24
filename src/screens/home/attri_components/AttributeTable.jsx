@@ -49,8 +49,8 @@ function AttributeTable(props) {
 								</td>
 								<td>
 									<Switch
-										active={attribute.active}
-										onClick={() => onToggle(attribute)}
+										checked={attribute.active}
+										onChange={() => onToggle(attribute)}
 									/>
 								</td>
 								<td className='action'>

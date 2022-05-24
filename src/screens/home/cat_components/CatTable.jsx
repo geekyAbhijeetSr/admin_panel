@@ -59,8 +59,8 @@ function CatTable(props) {
 
 								<td>
 									<Switch
-										onClick={() => onToggle(category)}
-										active={category.active}
+										checked={category.active}
+										onChange={() => onToggle(category)}
 									/>
 								</td>
 								{thirdLayer && <td>{category.attributeCollection.name}</td>}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Button } from '../../../components'
+import * as md from 'react-icons/md'
 import CollectionTable from './CollectionTable'
 import { CollectionFormModal, DelCollectionModal } from './CollectionModal'
 import { useSelector } from 'react-redux'
@@ -65,7 +66,7 @@ function AttributeCollections() {
 				delCollection={delCollection}
 			/>
 			<div className='add-container one'>
-				<Button onClick={handleOpenModal}>Create</Button>
+				<Button variant='outline primary' onClick={handleOpenModal}>Add<md.MdAdd/></Button>
 			</div>
 
 			<CollectionTable

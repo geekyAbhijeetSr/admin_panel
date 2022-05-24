@@ -43,6 +43,7 @@
 	border-radius: var(--border-radius-medium);
 	overflow: hidden;
 	padding: 2rem;
+	margin-bottom: 1rem;
 }
 
 .add-container {
@@ -68,7 +69,6 @@
 	justify-content: right;
 	gap: 0.5rem;
 	margin-left: auto;
-	margin-top: 1rem;
 }
 .table {
 	border-collapse: collapse;
@@ -80,8 +80,9 @@
 }
 
 .table thead tr {
-	background-color: var(--color-light-orange);
-	color: var(--color-orange);
+	/* background-color: var(--color-light-orange); */
+	color: var(--color-dark-gray);
+	border-bottom: 1px solid var(--color-light-gray);
 	text-align: left;
 	letter-spacing: 0.03rem;
 }
@@ -100,7 +101,7 @@
 }
 
 .table tbody tr:last-of-type {
-	border-bottom: 2px solid var(--color-light-orange);
+	border-bottom: none;
 }
 
 .table tbody tr.active-row {

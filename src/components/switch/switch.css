@@ -36,11 +36,11 @@
 	transition: 0.4s;
 }
 
-input.active + .slider {
+.switch input:checked + .slider {
 	background-color: var(--color-blue);
 }
 
-input.active + .slider:before {
+.switch input:checked + .slider:before {
 	transform: translateX(20px);
 }
 

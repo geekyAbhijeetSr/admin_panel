@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { Button } from '../../../components'
+import * as md from 'react-icons/md'
 import {
 	catValidation1,
 	catValidation2,
@@ -80,16 +81,18 @@ function Category1() {
 
 			<div className='add-container one'>
 				<Button
+					variant='outline primary'
 					disabled={parentCategories ? false : true}
 					onClick={handleOpenModal}
 				>
-					Create
+					Add
+					<md.MdAdd />
 				</Button>
 			</div>
 			<CatTable
 				categoriesList={parentCategories}
 				condition={parentCategories && parentCategories.length > 0}
-				message='Please Create a Category'
+				message='Please Add a Category'
 				handleOpenEditModal={handleOpenEditModal}
 				handleOpenDelModal={handleOpenDelModal}
 			/>

@@ -9,29 +9,8 @@
 	border: 1px solid var(--color-orange);
 }
 
-.button.outline {
-	background-color: transparent;
-	border: 1px solid var(--color-orange);
-	color: var(--color-orange);
-}
-
 .button:hover {
 	opacity: 0.9;
-}
-
-.button.disabled {
-	background-color: var(--color-gray-2);
-	border: 1px solid var(--color-gray-2);
-	cursor: not-allowed;
-}
-
-.button.outline.button.disabled {
-	background-color: transparent;
-	border: 1px solid var(--color-gray);
-	color: var(--color-gray);
-}
-.button.disabled:hover {
-	opacity: 1;
 }
 
 .button__text {
@@ -73,6 +52,12 @@
 	border: 1px solid var(--color-blue);
 }
 
+.button.outline {
+	background-color: transparent;
+	border: 1px solid var(--color-black);
+	color: var(--color-black);
+}
+
 .button.outline.primary {
 	background-color: transparent;
 	border: 1px solid var(--color-orange);
@@ -108,4 +93,59 @@
 	border: none;
 	outline: none;
 	color: var(--color-black);
+}
+
+.button.only-text:hover {
+	opacity: 1;
+}
+
+.button.only-text.danger {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	color: var(--color-red);
+}
+
+.button.only-text.success {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	color: var(--color-green);
+}
+
+.button.only-text.warning {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	color: var(--color-yellow);
+}
+
+.button.only-text.info {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	color: var(--color-blue);
+}
+
+.button.disabled {
+	background-color: var(--color-gray-2);
+	border: 1px solid var(--color-gray-2);
+	cursor: not-allowed;
+}
+
+.button.outline.disabled {
+	background-color: transparent;
+	border: 1px solid var(--color-gray);
+	color: var(--color-gray);
+}
+
+.button.only-text.disabled {
+	background-color: transparent;
+	border: none;
+	outline: none;
+	color: var(--color-gray);
+}
+
+.button.disabled:hover {
+	opacity: 1;
 }

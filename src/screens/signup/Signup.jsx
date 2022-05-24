@@ -90,7 +90,7 @@ function Signup() {
 						message={errors.confirmPassword?.message}
 					/>
 
-					<Button type='submit'>Sign up</Button>
+					<Button variant='outline primary' type='submit'>Sign up</Button>
 
 					<p className='create-account'>
 						Already have an account? <Link to='/login'>Log in</Link>

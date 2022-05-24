@@ -10,6 +10,8 @@ const initialState = {
 	isCRUDingProduct: false,
 	products: null,
 	justAddedProducts: [],
+	successProduct: null,
+	errorProduct: null
 }
 
 export const createProduct = createAsyncThunk(
@@ -39,21 +41,28 @@ export const getProducts = createAsyncThunk(
 const productSlice = createSlice({
 	name: 'product',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetErrorOrSuccessProduct: (state) => {
+			state.successProduct = null
+			state.errorProduct = null
+		}
+	},
 	extraReducers: {
 		// createProduct
 		[createProduct.pending]: (state, action) => {
 			state.isCRUDingProduct = true
 		},
 		[createProduct.fulfilled]: (state, action) => {
+			state.isCRUDingProduct = false
+			state.successProduct = action.payload.message
 			if (!Array.isArray(state.justAddedProducts)) state.justAddedProducts = []
 			state.justAddedProducts.push(action.payload.product)
 			if (state.justAddedProducts.length > 5) state.justAddedProducts.shift()
-			state.isCRUDingProduct = false
 			toast.success(action.payload.message)
 		},
 		[createProduct.rejected]: (state, action) => {
-			state.isCRUDingProducts = false
+			state.isCRUDingProduct = false
+			state.errorProduct = action.payload.error	
 			toast.error(action.payload.error)
 		},
 		// getProducts
@@ -71,6 +80,8 @@ const productSlice = createSlice({
 	},
 })
 
-const { reducer } = productSlice
+const { reducer, actions } = productSlice
+
+export const { resetErrorOrSuccessProduct } = actions
 
 export default reducer
