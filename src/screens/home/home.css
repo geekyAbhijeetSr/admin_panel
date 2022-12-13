@@ -11,6 +11,8 @@
 	background-color: var(--color-white);
 	height: 90vh;
 	border-radius: var(--border-radius-medium);
+	position: sticky;
+	top: 1rem;
 }
 
 .dashboard__left .tabs {

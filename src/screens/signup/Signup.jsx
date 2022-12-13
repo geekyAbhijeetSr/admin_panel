@@ -5,7 +5,8 @@ import { signupValidation } from '../../validation/auth-validation'
 import { useDispatch, useSelector } from 'react-redux'
 import { signup } from '../../redux/features/auth-slice'
 import { useEffect } from 'react'
-import { Input, Button, Spinner } from '../../components'
+import { Input, Button, SpinnerFullScreen } from '../../components'
+import './signup.css'
 
 function Signup() {
 	const {
@@ -31,20 +32,19 @@ function Signup() {
 		}
 	}, [user, navigate])
 
-
 	return (
-		<div className='signup-container'>
-			{isLoading && <Spinner />}
-			<div className='form-box'>
+		<div className='signup'>
+			{isLoading && <SpinnerFullScreen />}
+			<div className='signup__form-box'>
 				<h1>Sign up</h1>
 
 				<form
-					className='align-center'
+					className='signup__form'
 					onSubmit={handleSubmit(onSubmit)}
 					noValidate
 					spellCheck='false'
 				>
-					<div className='fln-container'>
+					<div className='signup__first-and-last-name'>
 						<Input
 							label='First Name'
 							name='firstname'
@@ -90,9 +90,11 @@ function Signup() {
 						message={errors.confirmPassword?.message}
 					/>
 
-					<Button variant='outline primary' type='submit'>Sign up</Button>
+					<Button variant='outline primary' type='submit'>
+						Sign up
+					</Button>
 
-					<p className='create-account'>
+					<p className='signup__login-option'>
 						Already have an account? <Link to='/login'>Log in</Link>
 					</p>
 				</form>

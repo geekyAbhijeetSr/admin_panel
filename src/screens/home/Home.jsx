@@ -7,10 +7,12 @@ import {
 	Products,
 	Orders,
 } from './home-components'
-import './styles/home.css'
+import { useSelector } from 'react-redux'
+import './home.css'
 
 function Home() {
 	const [activeTab, setActiveTab] = useState('dashboard')
+	const { user } = useSelector(state => state.auth)
 	const tabs = [
 		{
 			id: 'dashboard',
@@ -69,7 +71,17 @@ function Home() {
 			<div className='dashboard'>
 				<section className='dashboard__left'>
 					<ul className='tabs'>
-						{tabs.map(tab => (
+						{tabs
+							.filter((tab, index) => {
+								if (user.role === 'vendor' && tab.label === 'Attributes') {
+									return false
+								} else if (user.role === 'vendor' && tab.label === 'Categories') {
+									return false
+								} else {
+									return true
+								}
+							})
+							.map(tab => (
 							<li
 								key={tab.id}
 								id={tab.id}

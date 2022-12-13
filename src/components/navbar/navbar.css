@@ -3,14 +3,13 @@ header {
 	width: 100%;
 }
 
-.nav-container {
-	width: 100%;
+.navbar {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
-.logo {
+.navbar__logo {
 	width: 5rem;
 	line-height: 2rem;
 	font-size: var(--font-size-x-large);
@@ -18,45 +17,44 @@ header {
 	text-decoration: none;
 }
 
-.logo .link {
+.navbar__logo-link {
 	color: var(--color-black);
 }
 
-.logo .b {
+.navbar__logo-highlighted-text {
 	color: var(--color-orange);
 	font-family: var(--font-family-monospace);
 	font-size: var(--font-size-x-large);
 }
 
-nav {
+.navbar__navigation {
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
-	width: 10rem;
+	gap: 1rem;
 }
 
-.list-item {
+.navbar__navigation-list-item {
 	line-height: 2rem;
 	padding: 0.5rem;
 }
 
-nav a {
+.navbar__navigation-list-item a {
 	text-decoration: none;
 	color: var(--color-dark-gray);
 	font-size: var(--font-size-medium);
 }
 
-nav a:hover,
-nav a:active,
-nav a.active {
+.navbar__navigation-list-item a:hover,
+.navbar__navigation-list-item a:active {
 	color: var(--color-orange);
 }
 
-.user-container {
+/* navbar account menu */
+.navbar__account-menu {
 	position: relative;
 }
 
-.user {
+.navbar__account-user {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -64,31 +62,31 @@ nav a.active {
 	cursor: pointer;
 }
 
-.user .avatar {
+.navbar__account-user-avatar {
 	width: 1.8rem;
 	height: 1.8rem;
 	border-radius: var(--border-radius-small);
 	overflow: hidden;
 }
 
-.user .name {
+.navbar__account-user-avatar img {
+	width: 100%;
+	height: auto;
+}
+
+.navbar__account-user-info {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	font-size: var(--font-size-large);
 }
 
-.user .icon {
+.navbar__account-user-info .icon {
 	font-size: var(--font-size-x-large);
 	color: var(--color-gray-2);
 }
 
-.avatar img {
-	width: 100%;
-	height: auto;
-}
-
-.options {
+.navbar__account-menu-options {
 	position: absolute;
 	top: 3rem;
 	right: 0;
@@ -105,19 +103,20 @@ nav a.active {
 	z-index: 1;
 	opacity: 0;
 	visibility: hidden;
-	transition: all 0.3s ease-in-out;
+	transition: all 0.4s ease-in-out;
 }
 
-.option {
+.navbar__account-menu-option {
 	cursor: pointer;
 }
 
-.option:hover {
+.navbar__account-menu-option:hover {
 	color: var(--color-orange);
 }
 
-.user-container:focus ul,
-.user-container:hover ul {
+.navbar__account-menu:focus .navbar__account-menu-options,
+.navbar__account-menu:hover .navbar__account-menu-options {
 	opacity: 1;
 	visibility: visible;
 }
+/* navbar account menu end */

@@ -36,7 +36,7 @@ export const updateCollectionRequest = async payload => {
 	return response
 }
 
-export const deleteCollectionRequest = async payload => {
+export const removeCollectionRequest = async payload => {
 	const response = await fetch(
 		`${API_URL}/api/attribute/delete-collection/${payload}`,
 		{
@@ -79,7 +79,7 @@ export const updateAttributeRequest = async payload => {
 	return response
 }
 
-export const deleteAttributeRequest = async payload => {
+export const removeAttributeRequest = async payload => {
 	const { collectionId, attributeId } = payload
 	const response = await fetch(
 		`${API_URL}/api/attribute/delete-attribute/${collectionId}/${attributeId}`,

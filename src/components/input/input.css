@@ -1,4 +1,4 @@
-.input-container {
+.input {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -6,17 +6,7 @@
 	width: 100%;
 }
 
-label {
-	font-size: var(--font-size-medium);
-	color: var(--color-dark-gray);
-	margin-bottom: 0.5rem;
-}
-
-label .required {
-	color: var(--color-red);
-}
-
-.input {
+.input__inp {
 	width: 100%;
 	padding: 0.7rem 1rem;
 	border: 1px solid var(--color-light-gray);
@@ -28,7 +18,7 @@ label .required {
 	margin-bottom: 0.5rem;
 }
 
-.input-container textarea {
+.input textarea {
 	height: 10rem;
 	resize: none;
 	font-size: var(--font-size-large);
@@ -41,36 +31,22 @@ label .required {
 	background-color: var(--color-white);
 }
 
-.input.small {
+.input__inp.small {
 	font-size: var(--font-size-small);
 }
 
-.input.medium {
+.input__inp.medium {
 	font-size: var(--font-size-medium);
 }
 
-.input.large {
+.input__inp.large {
 	font-size: var(--font-size-large);
 }
 
-.input.xlarge {
+.input__inp.xlarge {
 	font-size: var(--font-size-x-large);
 }
 
-.input.error {
+.input__inp.error {
 	border: 1px solid var(--color-red);
-}
-
-p.error {
-	color: var(--color-red);
-	font-size: var(--font-size-small);
-}
-
-p.error .error-sign {
-	color: var(--color-red);
-	font-size: var(--font-size-small);
-	font-style: italic;
-	font-weight: bold;
-	margin-right: 0.4rem;
-	margin-left: 0.4rem;
 }

@@ -1,16 +1,38 @@
 import { useState, useEffect } from 'react'
+import * as md from 'react-icons/md'
 import './imageInput.css'
 
 function ImageInput(props) {
 	const [preview, setPreview] = useState(null)
-	const { label, message, name, register, accept, url, requiredField } = props
+	const {
+		label,
+		message,
+		name,
+		register,
+		accept,
+		url,
+		requiredField,
+		unselect,
+		setValue,
+		trigger,
+		cb
+	} = props
 
-	const onChange = e => {
-		if (e.target.files[0] === undefined) {
-			setPreview(null)
-		} else {
+	const onChange = async e => {
+		if (e.target.files[0]) {
 			setPreview(URL.createObjectURL(e.target.files[0]))
 		}
+		else setPreview(null)
+		trigger && await trigger(name, { shouldFocus: true })
+		cb && cb()
+	}
+
+	const clearPreviewHandler = async e => {
+		e.target.value = null
+		setValue(name, {length: 0})
+		trigger && await trigger(name, { shouldFocus: true })
+		setPreview(null)
+		cb && cb()
 	}
 
 	useEffect(() => {
@@ -20,12 +42,20 @@ function ImageInput(props) {
 	}, [url])
 
 	return (
-		<div className='image-input-container'>
-			<span className='image-input-label'>
+		<div className='image-input'>
+			<span className='image-input__label'>
 				{label} {requiredField && <span className='required'>*</span>}
 			</span>
 
-			<label className={`add-image ${message ? 'error' : ''}`} htmlFor={name}>
+			<div className={`image-input__preview ${message ? 'error' : ''}`}>
+				{preview && unselect && (
+					<span
+						className='image-input__clear-preview'
+						onClick={clearPreviewHandler}
+					>
+						<md.MdClear />
+					</span>
+				)}
 				<img
 					src={
 						preview ||
@@ -33,10 +63,10 @@ function ImageInput(props) {
 					}
 					alt='preview'
 				/>
-				<div className='add'>
+				<label className='image-input__add-image' htmlFor={name}>
 					<span>{preview ? 'Change' : 'Add'}</span>
-				</div>
-			</label>
+				</label>
+			</div>
 
 			<input
 				id={name}
@@ -49,8 +79,8 @@ function ImageInput(props) {
 			/>
 
 			{message ? (
-				<p className='error'>
-					<span className='error-sign'>!</span>
+				<p className='validation-error'>
+					<span className='validation-error__symbol'>!</span>
 					{message}
 				</p>
 			) : null}

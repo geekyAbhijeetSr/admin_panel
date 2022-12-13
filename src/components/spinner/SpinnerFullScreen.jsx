@@ -1,6 +1,6 @@
 import './spinner.css'
 
-function Spinner() {
+function SpinnerFullScreen() {
 	return (
 		<div className='spinner2-container'>
 			<div className='loadingio-spinner-dual-ring-ukas77okib'>
@@ -15,4 +15,4 @@ function Spinner() {
 	)
 }
 
-export default Spinner
+export default SpinnerFullScreen

@@ -1,18 +1,20 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import store from './redux/store'
-import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
-import App from './App'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { Provider } from 'react-redux'
+import store from './redux/store'
+import App from './App'
 
-const container = document.getElementById('root')
-const root = createRoot(container)
+import 'react-toastify/dist/ReactToastify.css'
+import 'react-loading-skeleton/dist/skeleton.css'
+import 'react-image-gallery/styles/css/image-gallery.css'
+ 
+const root = createRoot(document.getElementById('root'))
 
 root.render(
-	<React.StrictMode>
+	<>
+	{/* <React.StrictMode> */}
 		<Provider store={store}>
 			<Router>
 				<App />
@@ -20,14 +22,14 @@ root.render(
 		</Provider>
 		<ToastContainer
 			position='top-center'
-			autoClose={5000}
+			autoClose={3000}
 			hideProgressBar={false}
 			newestOnTop={false}
 			closeOnClick
 			rtl={false}
-			pauseOnFocusLoss
 			draggable
 			pauseOnHover
 		/>
-	</React.StrictMode>
+	{/* </React.StrictMode> */}
+	</>
 )

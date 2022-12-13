@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	addCategory,
-	deleteCategory,
+	removeCategory,
 	updateCategory,
 } from '../../../redux/features/category-slice'
 import { Input, ImageInput, Select, Button, Modal } from '../../../components'
@@ -19,7 +19,9 @@ function CatFormModal(props) {
 		formState: { errors },
 		reset,
 		setValue,
+		trigger
 	} = useForm({
+		mode: "all",
 		resolver: yupResolver(validation),
 	})
 
@@ -64,11 +66,14 @@ function CatFormModal(props) {
 		} else {
 			dispatch(addCategory(formData))
 		}
+
+		resetForm()
+		onClose()
 	}
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
-			<div className='modal-small-form'>
+			<div className='modal-small-width'>
 				<form onSubmit={handleSubmit(onSubmit)} noValidate spellCheck='false'>
 					<Input
 						label='Category Name'
@@ -86,13 +91,18 @@ function CatFormModal(props) {
 						accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 						message={errors.image?.message}
 						url={prefillData?.url}
+						unselect={prefillData ? false : true}
+						setValue={setValue}
+						trigger={trigger}
 					/>
 
-					<div className='buttons'>
+					<div className='buttons__right'>
 						<Button variant='only-text info' onClick={closeModal}>
 							Cancel
 						</Button>
-						<Button type='submit' variant='only-text info'>{prefillData ? 'Update' : 'Add'}</Button>
+						<Button type='submit' variant='only-text info'>
+							{prefillData ? 'Update' : 'Add'}
+						</Button>
 					</div>
 				</form>
 			</div>
@@ -111,7 +121,9 @@ function CatFormModal2(props) {
 		formState: { errors },
 		reset,
 		setValue,
+		trigger
 	} = useForm({
+		mode: "all",
 		resolver: yupResolver(validation),
 	})
 
@@ -158,6 +170,9 @@ function CatFormModal2(props) {
 		} else {
 			dispatch(addCategory(formData))
 		}
+
+		resetForm()
+		onClose()
 	}
 
 	const options = [
@@ -177,7 +192,7 @@ function CatFormModal2(props) {
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
-			<div className='modal-small-form'>
+			<div className='modal-small-width'>
 				<form onSubmit={handleSubmit(onSubmit)} noValidate spellCheck='false'>
 					<Input
 						label='Category Name'
@@ -195,6 +210,9 @@ function CatFormModal2(props) {
 						accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 						message={errors.image?.message}
 						url={prefillData?.url}
+						unselect={prefillData ? false : true}
+						setValue={setValue}
+						trigger={trigger}
 					/>
 
 					<Select
@@ -206,11 +224,13 @@ function CatFormModal2(props) {
 						className='input'
 					/>
 
-					<div className='buttons'>
+					<div className='buttons__right'>
 						<Button variant='only-text info' onClick={closeModal}>
 							Cancel
 						</Button>
-						<Button type='submit' variant='only-text info'>{prefillData ? 'Update' : 'Add'}</Button>
+						<Button type='submit' variant='only-text info'>
+							{prefillData ? 'Update' : 'Add'}
+						</Button>
 					</div>
 				</form>
 			</div>
@@ -223,20 +243,37 @@ function DelCatModal(props) {
 		isOpen,
 		onClose,
 		delCat: { id, name },
+		layer,
+		unselectCatOption,
+		prevSelectedOption,
+		unselectCatOption2,
+		prevSelectedOption2,
 	} = props
 	const dispatch = useDispatch()
 
 	const onDelete = () => {
-		dispatch(deleteCategory(id))
+		if (layer === 1) {
+			if (id === prevSelectedOption) {
+				unselectCatOption()
+			}
+			if (id === prevSelectedOption2) {
+				unselectCatOption2()
+			}
+		} else if (layer === 2) {
+			if (id === prevSelectedOption) {
+				unselectCatOption()
+			}
+		}
+		dispatch(removeCategory(id))
 		onClose()
 	}
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={onClose}>
-			<div className='modal-confirm del-cat'>
+			<div className='modal-confirm-width del-modal'>
 				<p>Are you sure you want to delete this category?</p>
 				<span>{name}</span>
-				<div className='buttons'>
+				<div className='buttons__right'>
 					<Button variant='only-text info' onClick={onClose}>
 						Cancel
 					</Button>

@@ -1,10 +1,16 @@
 import { useSelector } from 'react-redux'
 import { useEffect, useState, useRef } from 'react'
 import { Input, ImageInput, Select, Button } from '../../../components'
-import pse from '../../../assets/lottie/processing-success-error.json'
-import lottieWeb from 'lottie-web'
+import { resetErrorOrSuccessProduct } from '../../../redux/features/product-slice'
+import { useDispatch } from 'react-redux'
+import { motion, AnimatePresence } from 'framer-motion'
+import processingAnimation from '../../lottie_animations/processingAnimation'
+import successAnimation from '../../lottie_animations/successAnimation'
+import errorAnimation from '../../lottie_animations/errorAnimation'
+import { singleString } from '../../../helper/util'
+import './addFormSteps.css'
 
-const StepOneForm = (formStep, register, errors, formData) => {
+const StepOneForm = ({ formStep, register, errors, formData }) => {
 	const { categories, parentCategories } = useSelector(state => state.category)
 	const [secondLayerCatOptions, setSecondLayerCatOptions] = useState([])
 	const [thirdLayerCatOptions, setThirdLayerCatOptions] = useState([])
@@ -69,9 +75,10 @@ const StepOneForm = (formStep, register, errors, formData) => {
 			categories
 				.filter(
 					c =>
-						c.parentId === selectedSecondLevelCat &&
-						c.active &&
-						c.attributeCollection.active
+						(c.parentId === selectedSecondLevelCat &&
+							c.active &&
+							c.attributeCollection &&
+							c.attributeCollection?.active)
 				)
 				.forEach(c =>
 					thirdLevelCatOptions_.push({
@@ -193,7 +200,7 @@ const StepOneForm = (formStep, register, errors, formData) => {
 	)
 }
 
-const StepTwoForm = (formStep, register, errors) => {
+const StepTwoForm = ({ formStep, register, errors, setValue, trigger }) => {
 	return (
 		<div
 			className='step-two'
@@ -214,6 +221,9 @@ const StepTwoForm = (formStep, register, errors) => {
 				register={register}
 				accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 				message={errors.image_main?.message}
+				unselect={true}
+				setValue={setValue}
+				trigger={trigger}
 			/>
 			<ImageInput
 				label='Product Image 1'
@@ -221,6 +231,9 @@ const StepTwoForm = (formStep, register, errors) => {
 				register={register}
 				accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 				message={errors.image_1?.message}
+				unselect={true}
+				setValue={setValue}
+				trigger={trigger}
 			/>
 			<ImageInput
 				label='Product Image 2'
@@ -228,6 +241,9 @@ const StepTwoForm = (formStep, register, errors) => {
 				register={register}
 				accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 				message={errors.image_2?.message}
+				unselect={true}
+				setValue={setValue}
+				trigger={trigger}
 			/>
 			<ImageInput
 				label='Product Image 3'
@@ -235,6 +251,9 @@ const StepTwoForm = (formStep, register, errors) => {
 				register={register}
 				accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 				message={errors.image_3?.message}
+				unselect={true}
+				setValue={setValue}
+				trigger={trigger}
 			/>
 			<ImageInput
 				label='Product Image 4'
@@ -242,6 +261,9 @@ const StepTwoForm = (formStep, register, errors) => {
 				register={register}
 				accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 				message={errors.image_4?.message}
+				unselect={true}
+				setValue={setValue}
+				trigger={trigger}
 			/>
 			<ImageInput
 				label='Product Image 5'
@@ -249,12 +271,15 @@ const StepTwoForm = (formStep, register, errors) => {
 				register={register}
 				accept='image/jpeg, image/png, image/jpg, image/gif, image/svg+xml, image/webp'
 				message={errors.image_5?.message}
+				unselect={true}
+				setValue={setValue}
+				trigger={trigger}
 			/>
 		</div>
 	)
 }
 
-const StepThreeForm = (formStep, register, errors, attributeCollection) => {
+const StepThreeForm = ({ formStep, register, errors, attributeCollection }) => {
 	const renderSpecsInput = attributes => {
 		return attributes.map((attribute, index) => {
 			return (
@@ -273,7 +298,7 @@ const StepThreeForm = (formStep, register, errors, attributeCollection) => {
 				>
 					<Input
 						label={attribute.name}
-						name={attribute.name}
+						name={singleString(attribute.name)}
 						type='text'
 						placeholder={attribute.placeholder}
 						register={register}
@@ -302,51 +327,30 @@ const StepThreeForm = (formStep, register, errors, attributeCollection) => {
 	)
 }
 
-
-
-
-const StepFourSuccessOrError = formStep => {
-	const { isCRUDingProduct, successProduct, errorProduct } = useSelector(
+const StepFourSuccessOrError = ({
+	formStep,
+	backToProductList,
+	setFormStep,
+	rerender,
+}) => {
+	const { addingProduct, productSuccessMsg, productErrorMsg } = useSelector(
 		state => state.product
 	)
 	const pseLottieContainer = useRef()
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		let pAnim, sAnim, eAnim
-		if (isCRUDingProduct) {
-			pAnim = lottieWeb.loadAnimation({
-				container: pseLottieContainer.current,
-				renderer: 'svg',
-				loop: true,
-				autoplay: true,
-				animationData: pse,
-			})
-
-			pAnim.playSegments([0, 118], true)
+		if (addingProduct) {
+			pAnim = processingAnimation(pseLottieContainer)
 		}
 
-		if (successProduct) {
-			sAnim = lottieWeb.loadAnimation({
-				container: pseLottieContainer.current,
-				renderer: 'svg',
-				loop: false,
-				autoplay: true,
-				animationData: pse,
-			})
-
-			sAnim.playSegments([240, 400], true)
+		if (productSuccessMsg) {
+			sAnim = successAnimation(pseLottieContainer)
 		}
 
-		if (errorProduct) {
-			eAnim = lottieWeb.loadAnimation({
-				container: pseLottieContainer.current,
-				renderer: 'svg',
-				loop: false,
-				autoplay: true,
-				animationData: pse,
-			})
-
-			eAnim.playSegments([656, 810], true)
+		if (productErrorMsg) {
+			eAnim = errorAnimation(pseLottieContainer)
 		}
 
 		return () => {
@@ -360,8 +364,43 @@ const StepFourSuccessOrError = formStep => {
 				eAnim.destroy()
 			}
 		}
-	}, [isCRUDingProduct, successProduct, errorProduct])
+	}, [addingProduct, productSuccessMsg, productErrorMsg])
 
+	const addingProductAnimVariant = {
+		initial: {
+			opacity: 0,
+		},
+		animate: {
+			opacity: 1,
+			transition: {
+				duration: 0.3,
+			},
+		},
+		exit: {
+			opacity: 0,
+			transition: {
+				duration: 0.3,
+			},
+		},
+	}
+	const successOrErrorMsgAnimVariant = {
+		initial: { opacity: 0 },
+		animate: {
+			opacity: 1,
+			transition: {
+				duration: 0.3,
+				delay: 0.3,
+				ease: 'easeInOut',
+			},
+		},
+		exit: {
+			opacity: 0,
+			transition: {
+				duration: 0.3,
+				ease: 'easeInOut',
+			},
+		},
+	}
 
 	return (
 		<div
@@ -378,29 +417,94 @@ const StepFourSuccessOrError = formStep => {
 		>
 			<div
 				ref={pseLottieContainer}
-				className='pse-lottie-container'
+				className='success-or-error__lottie-container'
 			></div>
 
-			{isCRUDingProduct && <div>Processing</div>}
+			<AnimatePresence>
+				{addingProduct && (
+					<motion.div
+						variants={addingProductAnimVariant}
+						initial='initial'
+						animate='animate'
+						exit='exit'
+						className='success-or-error__processing'
+					>
+						<h2>Adding Product...</h2>
+					</motion.div>
+				)}
+			</AnimatePresence>
 
-			{successProduct && (
-				
-					<div className='success-message'>
-						<h2>{successProduct}</h2>
-						<p>You can add more products or go back to the products list.</p>
-						<div>
-							<Button variant='only-text info'>Go to Products</Button>
-							<Button variant='only-text primary'>Add More Products</Button>
+			<AnimatePresence>
+				{productSuccessMsg && (
+					<motion.div
+						variants={successOrErrorMsgAnimVariant}
+						initial='initial'
+						animate='animate'
+						exit='exit'
+						className='success-or-error__message'
+					>
+						<h2>{productSuccessMsg}</h2>
+						<div className='buttons'>
+							<Button
+								variant='only-text info'
+								type='button'
+								onClick={() => {
+									dispatch(resetErrorOrSuccessProduct())
+									backToProductList()
+								}}
+							>
+								Go to Products List
+							</Button>
+							<Button
+								variant='only-text info'
+								type='button'
+								onClick={() => {
+									dispatch(resetErrorOrSuccessProduct())
+									rerender()
+								}}
+							>
+								Add Another Product
+							</Button>
 						</div>
-					</div>
-	
-			)}
+					</motion.div>
+				)}
+			</AnimatePresence>
 
-			{errorProduct && (
-				<div>
-					{errorProduct}
-				</div>
-			)}
+			<AnimatePresence>
+				{productErrorMsg && (
+					<motion.div
+						variants={successOrErrorMsgAnimVariant}
+						initial='initial'
+						animate='animate'
+						exit='exit'
+						className='success-or-error__message'
+					>
+						<h2>{productErrorMsg}</h2>
+						<div>
+							<Button
+								variant='only-text info'
+								type='button'
+								onClick={() => {
+									dispatch(resetErrorOrSuccessProduct())
+									backToProductList()
+								}}
+							>
+								Go to Products List
+							</Button>
+							<Button
+								variant='only-text primary'
+								type='button'
+								onClick={() => {
+									dispatch(resetErrorOrSuccessProduct())
+									setFormStep(1)
+								}}
+							>
+								Try Again
+							</Button>
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</div>
 	)
 }

@@ -7,7 +7,7 @@ import { Input, Button, Modal } from '../../../components'
 import {
 	addCollection,
 	updateCollection,
-	deleteCollection,
+	removeCollection,
 } from '../../../redux/features/attribute-slice'
 
 function CollectionFormModal(props) {
@@ -51,11 +51,12 @@ function CollectionFormModal(props) {
 			dispatch(addCollection(data))
 		}
 		resetForm()
+		onClose()
 	}
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
-			<div className='modal-small-form'>
+			<div className='modal-small-width'>
 				<form onSubmit={handleSubmit(onSubmit)} noValidate spellCheck='false'>
 					<Input
 						label='Collection Name'
@@ -66,11 +67,13 @@ function CollectionFormModal(props) {
 						message={errors.name?.message}
 					/>
 
-					<div className='buttons'>
+					<div className='buttons__right'>
 						<Button variant='only-text info' onClick={closeModal}>
 							Cancel
 						</Button>
-						<Button type='submit' variant='only-text info'>{prefillData ? 'Update' : 'Add'}</Button>
+						<Button type='submit' variant='only-text info'>
+							{prefillData ? 'Update' : 'Add'}
+						</Button>
 					</div>
 				</form>
 			</div>
@@ -83,19 +86,26 @@ function DelCollectionModal(props) {
 		isOpen,
 		onClose,
 		delCollection: { id, name },
+
+		selectedCollection,
+		setSelectedCollection,
 	} = props
 	const dispatch = useDispatch()
 
 	const onDelete = () => {
-		dispatch(deleteCollection(id))
+		if (selectedCollection === id) {
+			setSelectedCollection('')
+		}
+		dispatch(removeCollection(id))
+		onClose()
 	}
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={onClose}>
-			<div className='modal-confirm del-cat'>
+			<div className='modal-confirm-width del-modal'>
 				<p>Are you sure you want to delete this attribute collection?</p>
 				<span>{name}</span>
-				<div className='buttons'>
+				<div className='buttons__right'>
 					<Button variant='only-text info' onClick={onClose}>
 						Cancel
 					</Button>

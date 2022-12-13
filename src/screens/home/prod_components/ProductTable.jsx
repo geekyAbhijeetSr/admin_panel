@@ -1,98 +1,128 @@
-import * as md from 'react-icons/md'
-import emptyList from '../../../assets/images/empty-list.svg'
-import { useSelector, useDispatch } from 'react-redux'
-// import { toggleActiveStatusCategory } from '../../../redux/features/category-slice'
-import { Switch } from '../../../components'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useState, useRef, useEffect } from 'react'
+import { DelProdModal } from './ProductModal'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { getProducts } from '../../../redux/features/product-slice'
+import ProductTableRow from './ProductTableRow'
+import emptyBoxAnimation from '../../lottie_animations/emptyBoxAnimation'
+import ProductTableRowSkeleton from './ProductTableRowSkeleton'
 
 function ProductTable(props) {
+	const { openProductDetails, openUpdateForm } = props
 	const {
-		productsList,
 		justAddedProducts,
-		condition,
-		message,
-		handleOpenDelModal,
-		handleOpenEditModal,
-	} = props
+		products,
+		totalDocs,
+		nextPage,
+		limit,
+		fetchingProducts,
+	} = useSelector(state => state.product)
 
+	const [isDelModalOpen, setIsDelModalOpen] = useState(false)
+	const [delProd, setDelProd] = useState({})
 	const dispatch = useDispatch()
+	const emptyBoxContainer = useRef()
+
+	useEffect(() => {
+		const animation = emptyBoxAnimation(emptyBoxContainer)
+		return () => {
+			animation.destroy()
+		}
+	}, [products?.length, justAddedProducts?.length])
 
 	const onToggle = product => {
-		// dispatch(toggleActiveStatusCategory(payload))
 		console.log('toggling')
 	}
 
-	return (
-		<div className='table-container'>
-			<table className='table'>
-				<thead>
-					<tr>
-						<th>Image</th>
-						<th>Product Name</th>
-						<th>Category</th>
-						<th>Active</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
+	const fetchMoreData = () => {
+		if (nextPage) {
+			dispatch(getProducts({ page: nextPage, limit: limit }))
+		}
+	}
 
-				{condition ? (
-					<tbody>
-						{Array.isArray(justAddedProducts) &&
-							justAddedProducts.length > 0 &&
-							justAddedProducts.map((product, index) => (
-								<tr key={product._id}>
-									<td className='image'>
-										<img src={product.images[0].thumbnail} alt='' />
-									</td>
-									<td className='name'>{product?.name}</td>
-									<td className='category'>
-										{`${product?.category?.topLevel?.name} > 									
-									${product?.category?.secondLevel?.name} >
-									${product?.category?.thirdLevel?.name}`}
-									</td>
-									<td className='active'>
-										<Switch
-											checked={product.active}
-											onChange={() => onToggle(product)}
+	// delete modal open and close
+	const handleOpenDelModal = product => {
+		setDelProd({
+			id: product._id,
+			name: product.name,
+		})
+		setIsDelModalOpen(true)
+	}
+
+	const handleCloseDelModal = () => {
+		setDelProd({})
+		setIsDelModalOpen(false)
+	}
+
+	return (
+		<>
+			<DelProdModal
+				isOpen={isDelModalOpen}
+				onClose={handleCloseDelModal}
+				delProd={delProd}
+			/>
+			<div className='table-container'>
+				<InfiniteScroll
+					dataLength={products?.length ? products.length : 0}
+					next={fetchMoreData}
+					hasMore={products?.length < totalDocs}
+				>
+					<table className='table'>
+						<thead>
+							<tr>
+								<th>Product Name</th>
+								<th>Image</th>
+								<th>Category</th>
+								<th>Active</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+
+						{products?.length > 0 || justAddedProducts?.length > 0 ? (
+							<tbody>
+								{justAddedProducts?.length > 0 &&
+									justAddedProducts.map((product, index) => (
+										<ProductTableRow
+											key={product._id}
+											product={product}
+											onToggle={onToggle}
+											handleOpenDelModal={handleOpenDelModal}
+											openProductDetails={openProductDetails}
+											openUpdateForm={openUpdateForm}
 										/>
+									))}
+
+								{products?.length > 0 &&
+									products.map((product, index) => (
+										<ProductTableRow
+											key={product._id}
+											product={product}
+											onToggle={onToggle}
+											handleOpenDelModal={handleOpenDelModal}
+											openProductDetails={openProductDetails}
+											openUpdateForm={openUpdateForm}
+										/>
+									))}
+								{fetchingProducts &&
+									Array.from({ length: limit }).map((_, index) => (
+										<ProductTableRowSkeleton key={index} />
+									))}
+							</tbody>
+						) : (
+							<tbody>
+								<tr>
+									<td className='items-not-found' colSpan={5}>
+										<div className='empty-box' ref={emptyBoxContainer}></div>
+										<p>Add some products</p>
 									</td>
 								</tr>
-							))}
-						{productsList.map((product, index) => (
-							<tr key={product._id}>
-								<td className='image'>
-									<img src={product.images[0].thumbnail} alt='' />
-								</td>
-								<td className='name'>{product?.name}</td>
-								<td className='category'>
-									{`${product?.category?.topLevel?.name} > 									
-									${product?.category?.secondLevel?.name} >
-									${product?.category?.thirdLevel?.name}`}
-								</td>
-								<td className='active'>
-									<Switch
-										checked={product.active}
-										onChange={() => onToggle(product)}
-									/>
-								</td>
-							</tr>
-						))}
-					</tbody>
-				) : (
-					<tbody>
-						<tr>
-							<td
-								className='items-not-found'
-								colSpan={4}
-								style={{ textAlign: 'center' }}
-							>
-								<img src={emptyList} alt='' />
-								<p>Add Products</p>
-							</td>
-						</tr>
-					</tbody>
-				)}
-			</table>
-		</div>
+							</tbody>
+						)}
+					</table>
+				</InfiniteScroll>
+			</div>
+		</>
 	)
 }
 

@@ -4,9 +4,8 @@ import { Button, Select } from '../../../components'
 import * as md from 'react-icons/md'
 import {
 	catValidation21,
-	catValidation22,
 } from '../../../validation/category-validation'
-import { CatFormModal2, DelCatModal } from './CatModal'
+import { CatFormModal2 } from './CatModal'
 import CatTable from './CatTable'
 
 function Category3(props) {
@@ -19,11 +18,6 @@ function Category3(props) {
 	const { categories, parentCategories } = useSelector(state => state.category)
 
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-	const [isDelModalOpen, setIsDelModalOpen] = useState(false)
-
-	const [prefillData, setPrefillData] = useState({})
-	const [delCat, setDelCat] = useState({})
 
 	let secondLayerCat = []
 	if (categories && categories.length > 0) {
@@ -54,37 +48,7 @@ function Category3(props) {
 		setIsModalOpen(false)
 	}
 
-	// edit category modal open and close
-	const handleOpenEditModal = category => {
-		setPrefillData({
-			id: category._id,
-			name: category.name,
-			active: category.active,
-			attributeCollection: category.attributeCollection,
-			url: category.image.url,
-			parentId: 'parentId' in category ? category.parentId : undefined,
-		})
-		setIsEditModalOpen(true)
-	}
-
-	const handleCloseEditModal = () => {
-		setIsEditModalOpen(false)
-		setPrefillData({})
-	}
-
-	// delete category modal open and close
-	const handleOpenDelModal = category => {
-		setDelCat({
-			id: category._id,
-			name: category.name,
-		})
-		setIsDelModalOpen(true)
-	}
-
-	const handleCloseDelModal = () => {
-		setDelCat({})
-		setIsDelModalOpen(false)
-	}
+	
 
 	// creating options
 	const options = parentCategories.map(parent => ({
@@ -98,18 +62,6 @@ function Category3(props) {
 		value: second._id,
 	}))
 
-	const message = () => {
-		if (!parentCategories || parentCategories.length === 0) {
-			return 'Please first create top level catagories'
-		} else if (selectedCategory1 === '') {
-			return 'Please select a top level category'
-		} else if (selectedCategory2 === '') {
-			return 'Please select a second level category'
-		} else if (thirdLayerCat.length === 0) {
-			return 'List is empty, please create some categories'
-		}
-	}
-
 	return (
 		<div>
 			<CatFormModal2
@@ -119,19 +71,8 @@ function Category3(props) {
 				parentId={selectedCategory2}
 				placeholder='e.g. Ryzen 9 Series'
 			/>
-			<CatFormModal2
-				isOpen={isEditModalOpen}
-				onClose={handleCloseEditModal}
-				validation={catValidation22}
-				prefillData={prefillData}
-				placeholder='e.g. Intel Core i9'
-			/>
-			<DelCatModal
-				isOpen={isDelModalOpen}
-				onClose={handleCloseDelModal}
-				delCat={delCat}
-			/>
-			<div className='add-container'>
+			
+			<div className='add-button-container'>
 				<div className='selects'>
 					<Select
 						name='top-level-category'
@@ -168,10 +109,9 @@ function Category3(props) {
 					selectedCategory1 &&
 					selectedCategory2
 				}
-				message={message()}
-				handleOpenEditModal={handleOpenEditModal}
-				handleOpenDelModal={handleOpenDelModal}
-				thirdLayer={true}
+				layer={3}
+				selectedCategory={selectedCategory1}
+				selectedCategory2={selectedCategory2}
 			/>
 		</div>
 	)

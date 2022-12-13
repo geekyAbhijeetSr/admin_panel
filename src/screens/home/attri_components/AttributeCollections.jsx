@@ -5,7 +5,8 @@ import CollectionTable from './CollectionTable'
 import { CollectionFormModal, DelCollectionModal } from './CollectionModal'
 import { useSelector } from 'react-redux'
 
-function AttributeCollections() {
+function AttributeCollections(props) {
+	const { selectedCollection, setSelectedCollection } = props
 	const { collections } = useSelector(state => state.attribute)
 
 	const [isModalOpen, setIsModalOpen] = useState(false)
@@ -64,9 +65,15 @@ function AttributeCollections() {
 				isOpen={isDelModalOpen}
 				onClose={handleCloseDelModal}
 				delCollection={delCollection}
+
+				selectedCollection={selectedCollection}
+				setSelectedCollection={setSelectedCollection}
 			/>
-			<div className='add-container one'>
-				<Button variant='outline primary' onClick={handleOpenModal}>Add<md.MdAdd/></Button>
+			<div className='add-button-container only-button'>
+				<Button variant='outline primary' onClick={handleOpenModal}>
+					Add
+					<md.MdAdd />
+				</Button>
 			</div>
 
 			<CollectionTable

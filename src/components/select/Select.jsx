@@ -32,8 +32,8 @@ function Select(props) {
 					))}
 				</select>
 				{message ? (
-					<p className='error'>
-						<span className='error-sign'>!</span>
+					<p className='validation-error'>
+						<span className='validation-error__symbol'>!</span>
 						{message}
 					</p>
 				) : null}

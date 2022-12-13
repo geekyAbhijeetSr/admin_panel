@@ -23,7 +23,7 @@ export const updateCategoryRequest = async (category, catId) => {
 	return response
 }
 
-export const deleteCategoryRequest = async categoryId => {
+export const removeCategoryRequest = async categoryId => {
 	const response = await fetch(`${API_URL}/api/category/${categoryId}`, {
 		credentials: 'include',
 		method: 'DELETE',

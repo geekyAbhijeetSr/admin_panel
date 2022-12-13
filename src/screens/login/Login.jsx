@@ -1,11 +1,13 @@
+import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginValidation } from '../../validation/auth-validation'
-import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../redux/features/auth-slice'
-import { useEffect } from 'react'
-import { Input, Button, Spinner } from '../../components'
+import { Input, Button, SpinnerFullScreen } from '../../components'
+
+import './login.css'
 
 function Login() {
 	const {
@@ -31,13 +33,13 @@ function Login() {
 	}, [user, navigate])
 
 	return (
-		<div className='login-container'>
-			{isLoadingAuth && <Spinner />}
-			<div className='form-box'>
+		<div className='login'>
+			{isLoadingAuth && <SpinnerFullScreen />}
+			<div className='login__form-box'>
 				<h1>Log in</h1>
 
 				<form
-					className='align-center'
+					className='login__form'
 					onSubmit={handleSubmit(onSubmit)}
 					noValidate
 					spellCheck='false'
@@ -60,13 +62,15 @@ function Login() {
 						message={errors.password?.message}
 					/>
 
-					<Link className='forgot-pass' to='/'>
+					<Link className='login__forgot-pass' to='/'>
 						Forgot your password?
 					</Link>
 
-					<Button variant='outline primary' type='submit'>Log In</Button>
+					<Button variant='outline primary' type='submit'>
+						Log In
+					</Button>
 
-					<p className='create-account'>
+					<p className='login__signup-option'>
 						Don't have an account yet? <Link to='/signup'>Signup</Link>
 					</p>
 				</form>

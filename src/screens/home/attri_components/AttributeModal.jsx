@@ -7,7 +7,7 @@ import { Input, Button, Modal } from '../../../components'
 import {
 	addAttribute,
 	updateAttribute,
-	deleteAttribute,
+	removeAttribute,
 } from '../../../redux/features/attribute-slice'
 
 function AttributeFormModal(props) {
@@ -56,11 +56,12 @@ function AttributeFormModal(props) {
 			dispatch(addAttribute(payload))
 		}
 		resetForm()
+		onClose()
 	}
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={closeModal}>
-			<div className='addcatform'>
+			<div className='modal-small-width'>
 				<form onSubmit={handleSubmit(onSubmit)} noValidate spellCheck='false'>
 					<Input
 						label='Attribute Name'
@@ -80,11 +81,13 @@ function AttributeFormModal(props) {
 						message={errors.placeholder?.message}
 					/>
 
-					<div className='buttons'>
+					<div className='buttons__right'>
 						<Button variant='only-text info' onClick={closeModal}>
 							Cancel
 						</Button>
-						<Button type='submit' variant='only-text info'>{prefillData ? 'Update' : 'Add'}</Button>
+						<Button type='submit' variant='only-text info'>
+							{prefillData ? 'Update' : 'Add'}
+						</Button>
 					</div>
 				</form>
 			</div>
@@ -98,16 +101,17 @@ function DelAttributeModal(props) {
 
 	const onDelete = () => {
 		dispatch(
-			deleteAttribute({ collectionId: id, attributeId: delAttribute._id })
+			removeAttribute({ collectionId: id, attributeId: delAttribute._id })
 		)
+		onClose()
 	}
 
 	return (
 		<Modal isOpen={isOpen} onRequestClose={onClose}>
-			<div className='del-cat'>
+			<div className='del-modal'>
 				<p>Are you sure you want to delete this attribute?</p>
 				<span>{delAttribute?.name}</span>
-				<div className='buttons'>
+				<div className='buttons__right'>
 					<Button variant='only-text info' onClick={onClose}>
 						Cancel
 					</Button>

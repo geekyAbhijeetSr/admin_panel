@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import CatTableSkeleton from './cat_components/CatTableSkeleton'
 import { getCategory } from '../../redux/features/category-slice'
 import { getCollections } from '../../redux/features/attribute-slice'
 import { Category1, Category2, Category3 } from './cat_components'
-import { Spinner2 } from '../../components'
-import './styles/categories.css'
 
 function Categories() {
-	const { isLoadingCat } = useSelector(
+	const { fetchingCategories, isInitialFetchCategories } = useSelector(
 		state => state.category
 	)
 
@@ -33,12 +32,8 @@ function Categories() {
 		},
 	]
 
-	const handleClick = e => {
+	const handleCardTabClick = e => {
 		setActiveCard(e.target.id)
-	}
-
-	const toggleActive = id => {
-		return activeCard === id ? 'card active' : 'card'
 	}
 
 	const [select_2, setSelect_2] = useState('')
@@ -58,15 +53,41 @@ function Categories() {
 		setSelect_3_2(e.target.value)
 	}
 
+	const unselectCat2Option = () => {
+		setSelect_2('')
+	}
+
+	const unselectCat3_1Option = () => {
+		setSelect_3_1('')
+		setSelect_3_2('')
+	}
+
+	const unselectCat3_2Option = () => {
+		setSelect_3_2('')
+	}
+
 	const renderComponent = () => {
 		switch (activeCard) {
 			case 'category1':
-				return <Category1 />
+				return (
+					<Category1
+						prevSelectedOption={select_2}
+						unselectCatOption={unselectCat2Option}
+
+						// for changing category 2 and 3 selected options if it is deleted from category 1
+						prevSelectedOption2={select_3_1}
+						unselectCatOption2={unselectCat3_1Option}
+					/>
+				)
 			case 'category2':
 				return (
 					<Category2
 						selectedCategory={select_2}
 						changeHandler={changeHandler2}
+
+						// for changing category 3 selected options if it is deleted from category 2
+						prevSelectedOption={select_3_2}
+						unselectCatOption={unselectCat3_2Option}
 					/>
 				)
 			case 'category3':
@@ -84,26 +105,37 @@ function Categories() {
 	}
 
 	return (
-		<div className='categories'>
-			<div className='cards'>
+		<div className='category-container'>
+			<div className='card-tabs'>
 				{cards.map(card => (
 					<div
 						key={card.id}
-						id={card.id}
-						className={toggleActive(card.id)}
-						onClick={handleClick}
+						className={
+							activeCard === card.id
+								? 'card-tabs__tab active'
+								: 'card-tabs__tab'
+						}
+						style={{
+							cursor: isInitialFetchCategories ? 'not-allowed' : 'pointer',
+							filter: isInitialFetchCategories ? 'grayscale(100%)' : 'none',
+						}}
 					>
-						{card.label}
+						<div
+							id={card.id}
+							style={{
+								pointerEvents: isInitialFetchCategories ? 'none' : 'auto',
+							}}
+							onClick={handleCardTabClick}
+						>
+							{card.label}
+						</div>
 					</div>
 				))}
 			</div>
-			{isLoadingCat ? (
-				<div className='cat-spinner-container'>
-					<Spinner2 />
-				</div>
-			) : (
-				<div className='content'>{renderComponent()}</div>
-			)}
+
+			<div className='content-box'>
+				{isInitialFetchCategories ? <CatTableSkeleton /> : renderComponent()}
+			</div>
 		</div>
 	)
 }

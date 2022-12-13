@@ -84,7 +84,7 @@ function AttributesList(props) {
 				delAttribute={delAttribute}
 			/>
 
-			<div className='add-container'>
+			<div className='add-button-container'>
 				<div>
 					<Select
 						name='attribute-collection'
@@ -109,7 +109,7 @@ function AttributesList(props) {
 				attributeList={attributeList}
 				condition={attributeList.length > 0}
 				id={selectedCollection}
-				message='No attributes found, please add some attributes'
+				selectedCollection={selectedCollection}
 				handleOpenEditModal={handleOpenEditModal}
 				handleOpenDelModal={handleOpenDelModal}
 			/>

@@ -1,13 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { createProduct } from '../../../redux/features/product-slice'
+import { addProduct } from '../../../redux/features/product-slice'
 import { useEffect, useState } from 'react'
 import * as md from 'react-icons/md'
 import { Button } from '../../../components'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { StepOneForm, StepTwoForm, StepThreeForm, StepFourSuccessOrError } from './AddFormSteps'
+import { singleString } from '../../../helper/util'
+import {
+	StepOneForm,
+	StepTwoForm,
+	StepThreeForm,
+	StepFourSuccessOrError,
+} from './AddFormSteps'
 import { productValidation } from '../../../validation/product-validation'
 import { ConfirmForBackToProductsModal } from './ProductModal'
+import './productCreate.css'
 
 const stepOneRequiredFields = [
 	'name',
@@ -24,7 +31,7 @@ const stepOneRequiredFields = [
 const stepTwoRequiredFields = ['image_main']
 
 function ProductCreate(props) {
-	const { backToProductList } = props
+	const { backToProductList, rerender } = props
 	const { categories } = useSelector(state => state.category)
 	const dispatch = useDispatch()
 	const {
@@ -32,10 +39,13 @@ function ProductCreate(props) {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setValue,
+		trigger,
 	} = useForm({
 		mode: 'all',
 		resolver: yupResolver(productValidation),
 	})
+
 	const [isFormFilled, setIsFormFilled] = useState(false)
 	const [atLeastOneInputFilled, setAtLeastOneInputFilled] = useState(false)
 	const [
@@ -84,7 +94,7 @@ function ProductCreate(props) {
 		// formStep 2
 		else if (formStep === 2) {
 			for (let key of stepTwoRequiredFields) {
-				if (formData[key]?.length === 0) {
+				if (formData[key]?.length === 0 || !formData[key]) {
 					setIsFormFilled(false)
 					break
 				}
@@ -98,9 +108,12 @@ function ProductCreate(props) {
 		let properties = []
 
 		attributes.forEach(a => {
+			let name = singleString(a.name)
 			let property = {
-				name: a.name,
-				value: data[a.name],
+				label: a.name,
+				name: name,
+				value: data[name],
+				placeholder: a.placeholder,
 			}
 			properties.push(property)
 			delete data[a.name]
@@ -127,7 +140,7 @@ function ProductCreate(props) {
 			}
 		}
 
-		dispatch(createProduct(formData))
+		dispatch(addProduct(formData))
 
 		setFormStep(4)
 	}
@@ -143,7 +156,6 @@ function ProductCreate(props) {
 	}
 
 	const backToProductsHandler = () => {
-		console.log(atLeastOneInputFilled)
 		if (atLeastOneInputFilled) {
 			setIsConfirmForBackToProductsModalOpen(true)
 		} else {
@@ -159,7 +171,7 @@ function ProductCreate(props) {
 				onConfirm={backToProductList}
 			/>
 			<div
-				className='add-container'
+				className='add-button-container'
 				style={
 					formStep === 1
 						? {
@@ -180,9 +192,9 @@ function ProductCreate(props) {
 				</Button>
 			</div>
 
-			<div className='create-product-container'>
+			<div className='create-product'>
 				{formStep !== 4 && (
-					<div className='heading-pc'>
+					<div className='create-product__heading'>
 						<h1>Add Product</h1>
 						<span>{formStep} of 3 Steps</span>
 						<h2>{renderHeading()}</h2>
@@ -190,12 +202,33 @@ function ProductCreate(props) {
 				)}
 
 				<form noValidate onSubmit={handleSubmit(submit)} spellCheck='false'>
-					{StepOneForm(formStep, register, errors, formData)}
-					{StepTwoForm(formStep, register, errors)}
-					{StepThreeForm(formStep, register, errors, attributeCollection)}
-					{StepFourSuccessOrError(formStep)}
+					<StepOneForm
+						formStep={formStep}
+						register={register}
+						errors={errors}
+						formData={formData}
+					/>
+					<StepTwoForm
+						formStep={formStep}
+						register={register}
+						errors={errors}
+						setValue={setValue}
+						trigger={trigger}
+					/>
+					<StepThreeForm
+						formStep={formStep}
+						register={register}
+						errors={errors}
+						attributeCollection={attributeCollection}
+					/>
+					<StepFourSuccessOrError
+						formStep={formStep}
+						backToProductList={backToProductList}
+						setFormStep={setFormStep}
+						rerender={rerender}
+					/>
 
-					<div className='button-container'>
+					<div className='create-product__form-buttons'>
 						{formStep > 1 && formStep < 4 && (
 							<Button
 								variant='only-text info'

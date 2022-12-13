@@ -13,14 +13,6 @@
 	z-index: 9999;
 }
 
-.modal .modal-confirm {
-	max-width: 320px;
-}
-
-.madal .modal-small-form {
-	max-width: 300px;
-}
-
 .overlay {
 	position: fixed;
 	top: 0;
@@ -29,4 +21,52 @@
 	bottom: 0;
 	background: rgba(0, 0, 0, 0.5);
 	z-index: 9998;
+}
+
+/* modal sizes */
+.modal .modal-confirm-width {
+	width: 320px;
+}
+
+.modal .modal-small-width {
+	width: 300px;
+}
+
+.modal .modal-medium-width {
+	width: 500px;
+}
+
+.modal .modal-large-width {
+	width: 700px;
+}
+
+.modal .modal-xlarge-width {
+	width: 900px;
+}
+
+.modal .modal-xxlarge-width {
+	width: 1100px;
+}
+
+/* delete modal */
+.del-modal > p,
+.conf-madal > p {
+	font-size: var(--font-size-large);
+	margin-bottom: 0.5rem;
+}
+
+.del-modal > span {
+	font-size: var(--font-size-medium);
+	color: var(--color-red);
+}
+
+.del-modal > .buttons,
+.del-modal > .buttons__right,
+.del-modal > .buttons__center,
+.del-modal > .buttons__left,
+.confirm-modal > .buttons,
+.confirm-modal > .buttons__right,
+.confirm-modal > .buttons__center,
+.confirm-modal > .buttons__left {
+	margin-top: 1rem;
 }

@@ -1,21 +1,32 @@
-import * as md from 'react-icons/md'
-import emptyList from '../../../assets/images/empty-list.svg'
-import { Switch } from '../../../components'
+import { useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import emptyBoxAnimation from '../../lottie_animations/emptyBoxAnimation'
+import optionsAnimation from '../../lottie_animations/optionsAnimation'
 import { toggleActiveStatusAttribute } from '../../../redux/features/attribute-slice'
-import { textAbstract } from '../../../helper/util'
+import AttributeTableRow from './AttributeTableRow'
 
 function AttributeTable(props) {
 	const {
 		attributeList,
 		condition,
 		id,
-		message,
+		selectedCollection,
 		handleOpenDelModal,
 		handleOpenEditModal,
 	} = props
 
 	const dispatch = useDispatch()
+	const emptyBoxContainer = useRef()
+	const optionsContainer = useRef()
+
+	useEffect(() => {
+		const animation = emptyBoxAnimation(emptyBoxContainer)
+		const animation2 = optionsAnimation(optionsContainer)
+		return () => {
+			animation.destroy()
+			animation2.destroy()
+		}
+	}, [selectedCollection, attributeList.length])
 
 	const onToggle = attribute => {
 		const payload = {
@@ -30,7 +41,6 @@ function AttributeTable(props) {
 			<table className='table'>
 				<thead>
 					<tr>
-						<th>#</th>
 						<th>Attribute Name</th>
 						<th>Placeholder</th>
 						<th>Active</th>
@@ -40,42 +50,31 @@ function AttributeTable(props) {
 
 				{condition ? (
 					<tbody>
-						{attributeList.map((attribute, index) => (
-							<tr key={attribute._id}>
-								<td className='no'>{index + 1}</td>
-								<td className='name'>{attribute.name}</td>
-								<td className='placeholder'>
-									{textAbstract(attribute.placeholder, 12)}
-								</td>
-								<td>
-									<Switch
-										checked={attribute.active}
-										onChange={() => onToggle(attribute)}
-									/>
-								</td>
-								<td className='action'>
-									<md.MdEdit
-										className='edit'
-										onClick={() => handleOpenEditModal(attribute)}
-									/>
-									<md.MdDelete
-										className='delete'
-										onClick={() => handleOpenDelModal(attribute)}
-									/>
-								</td>
-							</tr>
+						{attributeList.map(attribute => (
+							<AttributeTableRow
+								key={attribute._id}
+								attribute={attribute}
+								onToggle={onToggle}
+								handleOpenDelModal={handleOpenDelModal}
+								handleOpenEditModal={handleOpenEditModal}
+							/>
 						))}
 					</tbody>
 				) : (
 					<tbody>
 						<tr>
-							<td
-								className='items-not-found'
-								colSpan='4'
-								style={{ textAlign: 'center' }}
-							>
-								<img src={emptyList} alt='' />
-								<p>{message}</p>
+							<td className='items-not-found' colSpan='5'>
+								{selectedCollection ? (
+									<>
+										<div className='empty-box' ref={emptyBoxContainer}></div>
+										<p>No attributes found, please add some attributes</p>
+									</>
+								) : (
+									<>
+										<div className='options' ref={optionsContainer}></div>
+										<p>Please select an attribute collection</p>
+									</>
+								)}
 							</td>
 						</tr>
 					</tbody>
